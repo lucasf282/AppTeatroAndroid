@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AppTeatro</string>
+    <string name="cancel_login">Cancelar LogIn</string>
+    <string name="error_login">Erro Login</string>
+    <string name="logout">Logout</string>
+    <string name="firebase_error_login">Firebase Erro Login</string>
+
+    <string name="facebook_app_id">1521855401241144</string>
 </resources>

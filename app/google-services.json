@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "500499682597",
+    "firebase_url": "https://today-7b8b5.firebaseio.com",
+    "project_id": "today-7b8b5",
+    "storage_bucket": "today-7b8b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500499682597:android:2378febff6ba4dd4",
+        "android_client_info": {
+          "package_name": "br.com.appteatro.appteatro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500499682597-to2ut6mo9e8iborrdemip8f9c57n51m6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.appteatro.appteatro",
+            "certificate_hash": "4f97d42761228194b8266ee3dff04bb4beef7393"
+          }
+        },
+        {
+          "client_id": "500499682597-6stos9ujavg1fn3aegi6qvhg05bl054e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVT7Zn2E3C3T3cGalEvhUdxqIyph7iBZk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500499682597-6stos9ujavg1fn3aegi6qvhg05bl054e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
