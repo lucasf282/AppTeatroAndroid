@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             nameTextView.setText(name);
             emailTextView.setText(email);
             uidTextView.setText(uid);
-            photoImageView.setImageURI(photoUrl);
+            Glide.with(this).load(user.getPhotoUrl()).into(photoImageView);
         } else {
             goLoginScreen();
         }
