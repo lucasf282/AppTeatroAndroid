@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context="br.com.appteatro.appteatro.LoginActivity">
+    tools:context="br.com.appteatro.appteatro.CadastroActivity">
 
     <LinearLayout
         android:layout_width="368dp"
@@ -28,7 +27,7 @@
             app:srcCompat="@drawable/theatear_icon" />
 
         <EditText
-            android:id="@+id/ed_text_email"
+            android:id="@+id/ed_txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -36,11 +35,19 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/ed_text_password"
+            android:id="@+id/ed_txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_senha"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/ed_txt_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hint_confirmar_senha"
             android:inputType="textPassword" />
 
         <LinearLayout
@@ -49,48 +56,19 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_cancelar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_entrar" />
+                android:layout_weight="0.5"
+                android:text="@string/btn_cancelar" />
+
+            <Button
+                android:id="@+id/btn_cadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/btn_cadastrar" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/signInButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_sigin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_cadastrar" />
-
-
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:indeterminate="true"
-        android:visibility="gone" />
-
 </android.support.constraint.ConstraintLayout>
