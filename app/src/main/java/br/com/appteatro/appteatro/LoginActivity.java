@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -71,12 +72,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), R.string.cancel_login, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.login_cancelado, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), R.string.error_login, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.login_erro, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,18 +116,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             }
         };
+
+        Button btn_sigin = (Button) findViewById(R.id.btn_sigin);
+        btn_sigin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
         progressBar.setVisibility(View.VISIBLE);
         loginButton.setVisibility(View.GONE);
+        signInButton.setVisibility(View.GONE);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.login_erro_firebase, Toast.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
                 loginButton.setVisibility(View.VISIBLE);
@@ -165,6 +177,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         progressBar.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.GONE);
+        loginButton.setVisibility(View.GONE);
 
         AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
