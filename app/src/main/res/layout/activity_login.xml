@@ -49,7 +49,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/entrarButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_entrar" />
@@ -62,13 +62,13 @@
             android:orientation="horizontal">
 
             <com.facebook.login.widget.LoginButton
-                android:id="@+id/loginButton"
+                android:id="@+id/facebookButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5" />
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/signInButton"
+                android:id="@+id/googleButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5" />
