@@ -21,4 +21,6 @@
     <string name="btn_entrar">Entrar</string>
     <string name="btn_cadastrar">Cadastrar</string>
     <string name="btn_cancelar">Cancelar</string>
+
+    <string name="img_desc_capa_evento">capa do evento</string>
 </resources>
