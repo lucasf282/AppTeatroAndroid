@@ -23,4 +23,10 @@
     <string name="btn_cancelar">Cancelar</string>
 
     <string name="img_desc_capa_evento">capa do evento</string>
+    <string name="title_activity_menu_lateral">MenuLateralActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

@@ -24,6 +24,10 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".CadastroActivity" />
+        <activity
+            android:name=".MenuLateralActivity"
+            android:label="@string/title_activity_menu_lateral"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
