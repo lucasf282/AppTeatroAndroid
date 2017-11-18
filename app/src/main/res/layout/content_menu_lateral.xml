@@ -8,4 +8,9 @@
     tools:context="br.com.appteatro.appteatro.MenuLateralActivity"
     tools:showIn="@layout/app_bar_menu_lateral">
 
+    <FrameLayout
+        android:id="@+id/screen_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
 </android.support.constraint.ConstraintLayout>
