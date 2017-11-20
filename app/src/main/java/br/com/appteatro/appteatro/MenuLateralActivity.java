@@ -85,7 +85,7 @@ public class MenuLateralActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             fragment = new ImportFragment();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_chat) {
             Intent intent = new Intent(this, RoomActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {

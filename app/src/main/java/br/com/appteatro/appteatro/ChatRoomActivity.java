@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +29,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     private EditText input_msg;
     private TextView chat_conversation;
 
-    private String user_name,room_name;
-    private DatabaseReference root ;
+    private String user_name, room_name;
+    private DatabaseReference root;
     private String temp_key;
 
     @Override
@@ -42,24 +44,45 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
-        setTitle(" Room - "+room_name);
+        setTitle(" Room - " + room_name);
 
         root = FirebaseDatabase.getInstance().getReference().child(room_name);
+
+        btn_send_msg.setEnabled(Boolean.FALSE);
+
+        input_msg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                enableSubmitIfReady();
+            }
+        });
 
         btn_send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Map<String,Object> map = new HashMap<String, Object>();
+                Map<String, Object> map = new HashMap<String, Object>();
                 temp_key = root.push().getKey();
                 root.updateChildren(map);
 
                 DatabaseReference message_root = root.child(temp_key);
-                Map<String,Object> map2 = new HashMap<String, Object>();
-                map2.put("name",user_name);
-                map2.put("msg",input_msg.getText().toString());
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("name", user_name);
+                map2.put("msg", input_msg.getText().toString());
 
                 message_root.updateChildren(map2);
+
+                input_msg.getText().clear();
             }
         });
 
@@ -95,20 +118,25 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     }
 
-    private String chat_msg,chat_user_name;
+    private String chat_msg, chat_user_name;
 
     private void append_chat_conversation(DataSnapshot dataSnapshot) {
 
         Iterator i = dataSnapshot.getChildren().iterator();
 
-        while (i.hasNext()){
+        while (i.hasNext()) {
 
-            chat_msg = (String) ((DataSnapshot)i.next()).getValue();
-            chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
+            chat_msg = (String) ((DataSnapshot) i.next()).getValue();
+            chat_user_name = (String) ((DataSnapshot) i.next()).getValue();
 
-            chat_conversation.append(chat_user_name +" : "+chat_msg +" \n");
+            chat_conversation.append(chat_user_name + " : " + chat_msg + " \n");
         }
 
 
+    }
+
+    private void enableSubmitIfReady(){
+        boolean isReady = input_msg.getText().toString().length()>0;
+        btn_send_msg.setEnabled(isReady);
     }
 }
