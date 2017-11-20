@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,8 +17,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import br.com.appteatro.appteatro.fragement.ImportFragment;
+import br.com.appteatro.appteatro.fragement.PerfilFragment;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +45,10 @@ public class MenuLateralActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        acionarFragmentInicial();
+        setupNavDrawer();
+
     }
 
     @Override
@@ -81,8 +93,7 @@ public class MenuLateralActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_person) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            fragment = new PerfilFragment();
         } else if (id == R.id.nav_gallery) {
             fragment = new ImportFragment();
         } else if (id == R.id.nav_chat) {
@@ -96,7 +107,15 @@ public class MenuLateralActivity extends AppCompatActivity
 
         }
 
-        if(fragment != null){
+        this.acionarFragment(fragment);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void acionarFragment(Fragment fragment){
+        if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -104,9 +123,34 @@ public class MenuLateralActivity extends AppCompatActivity
 
             ft.commit();
         }
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    private void acionarFragmentInicial(){
+        Fragment fragment = new PerfilFragment();
+        acionarFragment(fragment);
+    }
+
+    // Configura o Nav Drawer
+    protected void setupNavDrawer() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            // Atualiza os dados do header do Navigation View
+            setNavViewValues(navigationView);
+
+        }
+    }
+
+    // Atualiza os dados do header do Navigation View
+    public void setNavViewValues(NavigationView navView) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        View headerView = navView.getHeaderView(0);
+        TextView tNome = (TextView) headerView.findViewById(R.id.textViewNome);
+        TextView tEmail = (TextView) headerView.findViewById(R.id.textViewEmail);
+        ImageView imgView = (ImageView) headerView.findViewById(R.id.imageView);
+        tNome.setText(user.getDisplayName());
+        tEmail.setText(user.getEmail());
+        Glide.with(this).load(user.getPhotoUrl()).into(imgView);
+        //imgView.setImageResource(user.ge);
     }
 }

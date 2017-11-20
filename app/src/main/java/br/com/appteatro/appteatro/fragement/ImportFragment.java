@@ -10,10 +10,6 @@ import android.widget.Toast;
 
 import br.com.appteatro.appteatro.R;
 
-/**
- * Created by Windows 10 on 18/11/2017.
- */
-
 public class ImportFragment extends Fragment {
 
     @Nullable
