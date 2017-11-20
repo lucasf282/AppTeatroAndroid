@@ -16,6 +16,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import br.com.appteatro.appteatro.EditarPerfilActivity;
 import br.com.appteatro.appteatro.LoginActivity;
 import br.com.appteatro.appteatro.R;
 
@@ -57,7 +58,7 @@ public class PerfilFragment extends Fragment {
             goLoginScreen();
         }
 
-        view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.buttonLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
@@ -65,10 +66,23 @@ public class PerfilFragment extends Fragment {
                 goLoginScreen();
             }
         });
+
+        view.findViewById(R.id.buttonEditar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goEditarPerfilScreen();
+            }
+        });
     }
 
     private void goLoginScreen() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void goEditarPerfilScreen(){
+        Intent intent = new Intent(getActivity(), EditarPerfilActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
