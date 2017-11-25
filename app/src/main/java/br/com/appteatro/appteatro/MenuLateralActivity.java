@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import br.com.appteatro.appteatro.fragement.EventoFragment;
 import br.com.appteatro.appteatro.fragement.ImportFragment;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
 
@@ -94,13 +95,12 @@ public class MenuLateralActivity extends AppCompatActivity
 
         if (id == R.id.nav_person) {
             fragment = new PerfilFragment();
-        } else if (id == R.id.nav_gallery) {
-            fragment = new ImportFragment();
+        } else if (id == R.id.nav_event) {
+            //fragment = new ImportFragment();
+            fragment = new EventoFragment();
         } else if (id == R.id.nav_chat) {
             Intent intent = new Intent(this, RoomActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
