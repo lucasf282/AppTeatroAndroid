@@ -30,7 +30,7 @@
                 android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/thumb_default"/>
         </FrameLayout>
-        
+
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"

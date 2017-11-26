@@ -12,6 +12,29 @@ import br.com.appteatro.appteatro.R;
 
 public class ImportFragment extends Fragment {
 
+    private int tipo;
+
+    // Método para instanciar esse fragment pelo tipo.
+    public static ImportFragment newInstance(int tipo) {
+        Bundle args = new Bundle();
+        args.putInt("tipo", tipo);
+        ImportFragment f = new ImportFragment();
+        f.setArguments(args);
+        return f;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            // Lê o tipo dos argumentos.
+            this.tipo = getArguments().getInt("tipo");
+        }
+
+        // Registra a classe para receber eventos.
+       // CarrosApplication.getInstance().getBus().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

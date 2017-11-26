@@ -8,9 +8,10 @@
     tools:context="br.com.appteatro.appteatro.MenuLateralActivity"
     tools:showIn="@layout/app_bar_menu_lateral">
 
-    <FrameLayout
-        android:id="@+id/screen_area"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.constraint.ConstraintLayout>

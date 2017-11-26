@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,9 +27,13 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import br.com.appteatro.appteatro.adapter.TabsAdapter;
 import br.com.appteatro.appteatro.fragement.EventoFragment;
 import br.com.appteatro.appteatro.fragement.ImportFragment;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
+import br.com.appteatro.appteatro.utils.Prefs;
+
+import static java.security.AccessController.getContext;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,9 +42,12 @@ public class MenuLateralActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_lateral);
+
+        // Configura Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Configura Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -47,8 +57,12 @@ public class MenuLateralActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        acionarFragmentInicial();
         setupNavDrawer();
+
+        // Configura ViewPage + Tabs
+        setupViewPagerTabs();
+
+        //acionarFragmentInicial();
 
     }
 
@@ -97,7 +111,7 @@ public class MenuLateralActivity extends AppCompatActivity
             fragment = new PerfilFragment();
         } else if (id == R.id.nav_event) {
             //fragment = new ImportFragment();
-            fragment = new EventoFragment();
+            //fragment = new EventoFragment();
         } else if (id == R.id.nav_chat) {
             Intent intent = new Intent(this, RoomActivity.class);
             startActivity(intent);
@@ -119,7 +133,7 @@ public class MenuLateralActivity extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
 
-            ft.replace(R.id.screen_area, fragment);
+            //ft.replace(R.id.screen_area, fragment);
 
             ft.commit();
         }
@@ -136,7 +150,6 @@ public class MenuLateralActivity extends AppCompatActivity
         if (navigationView != null) {
             // Atualiza os dados do header do Navigation View
             setNavViewValues(navigationView);
-
         }
     }
 
@@ -152,5 +165,19 @@ public class MenuLateralActivity extends AppCompatActivity
         tEmail.setText(user.getEmail());
         Glide.with(this).load(user.getPhotoUrl()).into(imgView);
         //imgView.setImageResource(user.ge);
+    }
+
+    private void setupViewPagerTabs() {
+        // ViewPager
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setAdapter(new TabsAdapter(this, getSupportFragmentManager()));
+        // Tabs
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        // Cria as tabs com o mesmo adapter utilizado pelo ViewPager
+        tabLayout.setupWithViewPager(viewPager);
+        //int cor = ContextCompat.getColor(getContext(), R.color.white);
+        // Cor branca no texto (o fundo azul foi definido no layout)
+        //tabLayout.setTabTextColors(cor, cor);
     }
 }

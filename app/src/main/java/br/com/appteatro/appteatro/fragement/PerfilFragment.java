@@ -27,6 +27,29 @@ public class PerfilFragment extends Fragment {
     private TextView uidTextView;
     private ImageView photoImageView;
 
+    private int tipo;
+
+    // Método para instanciar esse fragment pelo tipo.
+    public static PerfilFragment newInstance(int tipo) {
+        Bundle args = new Bundle();
+        args.putInt("tipo", tipo);
+        PerfilFragment f = new PerfilFragment();
+        f.setArguments(args);
+        return f;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            // Lê o tipo dos argumentos.
+            this.tipo = getArguments().getInt("tipo");
+        }
+
+        // Registra a classe para receber eventos.
+        // CarrosApplication.getInstance().getBus().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

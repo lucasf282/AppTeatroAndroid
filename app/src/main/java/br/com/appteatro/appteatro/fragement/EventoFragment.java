@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,30 @@ import br.com.appteatro.appteatro.domain.service.EventoService;
 public class EventoFragment extends Fragment {
 
     protected RecyclerView recyclerView;
+    private int tipo;
     private List<Evento> listaString;
     private SwipeRefreshLayout swipeLayout;
+
+    // Método para instanciar esse fragment pelo tipo.
+    public static EventoFragment newInstance(int tipo) {
+        Bundle args = new Bundle();
+        args.putInt("tipo", tipo);
+        EventoFragment f = new EventoFragment();
+        f.setArguments(args);
+        return f;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            // Lê o tipo dos argumentos.
+            this.tipo = getArguments().getInt("tipo");
+        }
+
+        // Registra a classe para receber eventos.
+        //CarrosApplication.getInstance().getBus().register(this);
+    }
 
     @Nullable
     @Override
@@ -46,6 +69,7 @@ public class EventoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         // Swipe to Refresh
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefresh);
+        swipeLayout.setOnRefreshListener(OnRefreshListener());
 
 
         return view;
@@ -73,6 +97,24 @@ public class EventoFragment extends Fragment {
 
         // Atualiza a view na UI Thread
         recyclerView.setAdapter(new EventoAdapter(getContext(), this.listaString));
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Valida se existe conexão ao fazer o gesto Pull to Refresh
+                //AndroidUtils.isNetworkAvailable(getContext())
+                if (true) {
+                    // Atualiza ao fazer o gesto Pull to Refresh
+                    //taskCarros(true);
+                    swipeLayout.setRefreshing(false);
+                } else {
+                    swipeLayout.setRefreshing(false);
+                    Toast.makeText(getActivity(), "Erro ao Atualizar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
     }
 
 

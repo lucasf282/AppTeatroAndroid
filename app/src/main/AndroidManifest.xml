@@ -34,10 +34,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RoomActivity"
-            android:label="@string/title_activity_room" />
+            android:label="@string/title_activity_room"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ChatRoomActivity"
-            android:label="@string/title_activity_chat_room" />
+            android:label="@string/title_activity_chat_room"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MenuLateralActivity"/>
+
         <activity android:name=".EditarPerfilActivity"></activity>
     </application>
 
