@@ -108,7 +108,8 @@ public class MenuLateralActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_person) {
-            fragment = new PerfilFragment();
+            Intent intent = new Intent(this, EditarPerfilActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_event) {
             //fragment = new ImportFragment();
             //fragment = new EventoFragment();

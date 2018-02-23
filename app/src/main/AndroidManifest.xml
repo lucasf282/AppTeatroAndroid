@@ -3,6 +3,7 @@
     package="br.com.appteatro.appteatro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -35,13 +36,16 @@
         <activity
             android:name=".RoomActivity"
             android:label="@string/title_activity_room"
+            android:parentActivityName=".MenuLateralActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ChatRoomActivity"
             android:label="@string/title_activity_chat_room"
-            android:parentActivityName=".MenuLateralActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditarPerfilActivity" />
+            android:parentActivityName=".RoomActivity"/>
+        <activity
+            android:name=".EditarPerfilActivity"
+            android:label="Meu Perfil"
+            android:parentActivityName=".MenuLateralActivity"/>
         <activity android:name=".EventoActivity" />
         <activity android:name=".LocalActivity"></activity>
     </application>
