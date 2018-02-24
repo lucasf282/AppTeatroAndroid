@@ -131,7 +131,7 @@ public class MenuLateralActivity extends AppCompatActivity
         return true;
     }
 
-    private void acionarFragment(Fragment fragment){
+    private void acionarFragment(Fragment fragment) {
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -142,7 +142,7 @@ public class MenuLateralActivity extends AppCompatActivity
         }
     }
 
-    private void acionarFragmentInicial(){
+    private void acionarFragmentInicial() {
         Fragment fragment = new PerfilFragment();
         acionarFragment(fragment);
     }
@@ -167,7 +167,6 @@ public class MenuLateralActivity extends AppCompatActivity
         tNome.setText(user.getDisplayName());
         tEmail.setText(user.getEmail());
         Glide.with(this).load(user.getPhotoUrl()).into(imgView);
-        //imgView.setImageResource(user.ge);
     }
 
     private void setupViewPagerTabs() {
@@ -179,9 +178,6 @@ public class MenuLateralActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         // Cria as tabs com o mesmo adapter utilizado pelo ViewPager
         tabLayout.setupWithViewPager(viewPager);
-        //int cor = ContextCompat.getColor(getContext(), R.color.white);
-        // Cor branca no texto (o fundo azul foi definido no layout)
-        //tabLayout.setTabTextColors(cor, cor);
     }
 
 }

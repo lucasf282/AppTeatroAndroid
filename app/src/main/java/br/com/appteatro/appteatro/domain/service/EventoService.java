@@ -1,8 +1,5 @@
 package br.com.appteatro.appteatro.domain.service;
 
-import android.content.Context;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.appteatro.appteatro.domain.model.Evento;
+import br.com.appteatro.appteatro.domain.model.Local;
 import br.com.appteatro.appteatro.utils.HttpHelper;
 
 public class EventoService {
@@ -22,7 +20,6 @@ public class EventoService {
 
     private static final String URL = "https://teatro-api.herokuapp.com/eventos";
 
-    // TODO Cada Aba é um tipo de filtro (filtrar corretamente)
     private int tipo;
 
     public static List<Evento> getEventos(int tipo) {
@@ -42,15 +39,18 @@ public class EventoService {
         String url = montaURL(tipo);
         HttpHelper http = new HttpHelper();
         String json = http.doGet(url);
-        List<Evento> carros = parserJSON(json);
-        return carros;
+        List<Evento> eventos = parserJSON(json);
+        return eventos;
     }
 
     private static String montaURL(int tipo) {
-        if(tipo == 2131558480){
+        if (tipo == 2131558480) {
+            // Aba 0 Eventos
             return URL;
         } else {
-            return URL + "?filtrar&ordenacao=Improvável";
+            // Aba 1 Destaque
+            // Definido como destaque genero STANDUP
+            return URL + "?filtrar&genero=STANDUP";
         }
     }
 
@@ -65,8 +65,10 @@ public class EventoService {
                 Evento e = new Evento();
                 // Lê as informações de cada evento
                 e.nome = jsonEvento.optString("nome");
-                e.urlFoto = jsonEvento.optString("imagem");
+                e.descricao = jsonEvento.optString("descricao");
+                e.imagem = jsonEvento.optString("imagem");
                 e.genero = jsonEvento.optString("genero");
+                e.local = insereLocal(jsonEvento.getJSONObject("local"));
 
                 eventos.add(e);
             }
@@ -74,5 +76,19 @@ public class EventoService {
             throw new IOException(e.getMessage(), e);
         }
         return eventos;
+    }
+
+    private static Local insereLocal(JSONObject localJSON) {
+        Local local = new Local();
+        local.nome = localJSON.optString("nome");
+        local.endereco = localJSON.optString("endereco");
+        local.complemento = localJSON.optString("complemento");
+        local.cidade = localJSON.optString("cidade");
+        local.estado = localJSON.optString("estado");
+        local.telefone = localJSON.optString("telefone");
+        local.latitude = localJSON.optString("latitude");
+        local.longitude = localJSON.optString("longitude");
+
+        return local;
     }
 }

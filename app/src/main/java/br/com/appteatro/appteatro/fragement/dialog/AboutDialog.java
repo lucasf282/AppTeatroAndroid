@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import br.com.appteatro.appteatro.R;
+import br.com.appteatro.appteatro.utils.AndroidUtils;
 
 public class AboutDialog extends DialogFragment {
     // Método utilitário para mostrar o dialog
@@ -35,7 +36,8 @@ public class AboutDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Cria o HTML com o texto de about
         SpannableStringBuilder aboutBody = new SpannableStringBuilder();
-        aboutBody.append(Html.fromHtml(getString(R.string.about_dialog_text, "Verison 1.0")));
+        String versionName = AndroidUtils.getVersionName(getActivity());
+        aboutBody.append(Html.fromHtml(getString(R.string.about_dialog_text, versionName)));
         // Infla o layout
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         TextView view = (TextView) inflater.inflate(R.layout.dialog_about, null);

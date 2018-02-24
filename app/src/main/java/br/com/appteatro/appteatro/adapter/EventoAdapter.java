@@ -42,7 +42,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         // Atualiza a view
         Evento e = eventos.get(position);
         holder.tNome.setText(e.nome);
-        Glide.with(this.context).load(e.urlFoto).into(holder.img);
+        Glide.with(this.context).load(e.imagem).into(holder.img);
         holder.tGenero.setText(e.genero);
     }
 
