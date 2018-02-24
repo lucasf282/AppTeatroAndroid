@@ -39,9 +39,9 @@ public class TabsAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             f = EventoFragment.newInstance(R.string.eventos);
         } else if (position == 1) {
-            f = ImportFragment.newInstance(R.string.destaque);
+            f = EventoFragment.newInstance(R.string.destaque);
         } else {
-            f = PerfilFragment.newInstance(R.string.favoritos);
+            f = EventoFragment.newInstance(R.string.favoritos);
         }
         return f;
     }

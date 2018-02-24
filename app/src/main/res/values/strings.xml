@@ -28,7 +28,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_about">Sobre</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -39,4 +39,16 @@
     <string name="eventos">Eventos</string>
     <string name="destaque">Destaque</string>
     <string name="favoritos">Favoritos</string>
+
+    <string name="about_dialog_text">
+<![CDATA[
+<b>Aplicativo +Teatro</b><br>
+Versao %s<br><br>
+<a href="https://github.com/lucasf282/AppTeatroAndroid">https://github.com</a><br><br>
+	]]>
+	</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
+
+    <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
+
 </resources>

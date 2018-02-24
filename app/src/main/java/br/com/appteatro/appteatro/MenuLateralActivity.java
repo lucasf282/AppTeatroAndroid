@@ -31,6 +31,7 @@ import br.com.appteatro.appteatro.adapter.TabsAdapter;
 import br.com.appteatro.appteatro.fragement.EventoFragment;
 import br.com.appteatro.appteatro.fragement.ImportFragment;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
+import br.com.appteatro.appteatro.fragement.dialog.AboutDialog;
 import br.com.appteatro.appteatro.utils.Prefs;
 
 import static java.security.AccessController.getContext;
@@ -91,7 +92,8 @@ public class MenuLateralActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            AboutDialog.showAbout(getSupportFragmentManager());
             return true;
         }
 
@@ -108,7 +110,7 @@ public class MenuLateralActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_person) {
-            Intent intent = new Intent(this, EditarPerfilActivity.class);
+            Intent intent = new Intent(this, PerfilActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_event) {
             //fragment = new ImportFragment();
@@ -181,4 +183,5 @@ public class MenuLateralActivity extends AppCompatActivity
         // Cor branca no texto (o fundo azul foi definido no layout)
         //tabLayout.setTabTextColors(cor, cor);
     }
+
 }

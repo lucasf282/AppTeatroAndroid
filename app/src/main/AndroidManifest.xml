@@ -41,13 +41,17 @@
         <activity
             android:name=".ChatRoomActivity"
             android:label="@string/title_activity_chat_room"
-            android:parentActivityName=".RoomActivity"/>
+            android:parentActivityName=".RoomActivity" />
+        <activity android:name=".EventoActivity" />
+        <activity android:name=".LocalActivity" />
+        <activity
+            android:name=".PerfilActivity"
+            android:label="@string/title_activity_perfil"
+            android:parentActivityName=".MenuLateralActivity"></activity>
         <activity
             android:name=".EditarPerfilActivity"
             android:label="Meu Perfil"
-            android:parentActivityName=".MenuLateralActivity"/>
-        <activity android:name=".EventoActivity" />
-        <activity android:name=".LocalActivity"></activity>
+            android:parentActivityName=".PerfilActivity" />
     </application>
 
 </manifest>

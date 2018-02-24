@@ -22,11 +22,14 @@ public class EventoService {
 
     private static final String URL = "https://teatro-api.herokuapp.com/eventos";
 
-    public static List<Evento> getEventos() {
+    // TODO Cada Aba é um tipo de filtro (filtrar corretamente)
+    private int tipo;
+
+    public static List<Evento> getEventos(int tipo) {
         List<Evento> eventos = new ArrayList<>();
 
         try {
-            eventos = getEventosFromWebService();
+            eventos = getEventosFromWebService(tipo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,12 +38,20 @@ public class EventoService {
     }
 
     // Faz a requisição HTTP, cria a lista de eventos
-    public static List<Evento> getEventosFromWebService() throws IOException {
-        String url = URL;
+    public static List<Evento> getEventosFromWebService(int tipo) throws IOException {
+        String url = montaURL(tipo);
         HttpHelper http = new HttpHelper();
         String json = http.doGet(url);
         List<Evento> carros = parserJSON(json);
         return carros;
+    }
+
+    private static String montaURL(int tipo) {
+        if(tipo == 2131558480){
+            return URL;
+        } else {
+            return URL + "?filtrar&ordenacao=Improvável";
+        }
     }
 
     private static List<Evento> parserJSON(String json) throws IOException {

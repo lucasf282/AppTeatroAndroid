@@ -23,6 +23,7 @@ import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
 import br.com.appteatro.appteatro.domain.service.EventoService;
+import br.com.appteatro.appteatro.utils.AndroidUtils;
 
 public class EventoFragment extends Fragment {
 
@@ -93,7 +94,7 @@ public class EventoFragment extends Fragment {
 //        EventoFragment.this.listaString.add(nome1);
 //        EventoFragment.this.listaString.add(nome2);
 
-        this.listaString = EventoService.getEventos();
+        this.listaString = EventoService.getEventos(this.tipo);
 
         // Atualiza a view na UI Thread
         recyclerView.setAdapter(new EventoAdapter(getContext(), this.listaString));
@@ -104,14 +105,13 @@ public class EventoFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Valida se existe conexão ao fazer o gesto Pull to Refresh
-                //AndroidUtils.isNetworkAvailable(getContext())
-                if (true) {
+                if (AndroidUtils.isNetworkAvailable(getContext())) {
                     // Atualiza ao fazer o gesto Pull to Refresh
-                    //taskCarros(true);
+                    taskCarros(true);
                     swipeLayout.setRefreshing(false);
                 } else {
                     swipeLayout.setRefreshing(false);
-                    Toast.makeText(getActivity(), "Erro ao Atualizar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),  R.string.msg_error_conexao_indisponivel, Toast.LENGTH_SHORT).show();
                 }
             }
         };
