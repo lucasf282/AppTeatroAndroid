@@ -51,4 +51,7 @@ Versao %s<br><br>
 
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
 
+
+    <string name="google_maps_key">AIzaSyAqHtftBTlkHugteL_9T1zPK_yh9zLdi84</string>
+
 </resources>
