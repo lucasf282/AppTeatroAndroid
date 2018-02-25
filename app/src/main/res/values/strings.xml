@@ -2,6 +2,22 @@
     <string name="app_name">AppTeatro</string>
     <string name="facebook_app_id">1521855401241144</string>
 
+    <string name="next">PRÓXIMO</string>
+    <string name="skip">PULAR</string>
+    <string name="start">ENTENDI</string>
+
+    <string name="slide_1_title">Eventos</string>
+    <string name="slide_1_desc">Descubra os melhores opções de peça!</string>
+
+    <string name="slide_2_title">Programação</string>
+    <string name="slide_2_desc">Encontre seu estilo!</string>
+
+    <string name="slide_3_title">Ótimos Descontos</string>
+    <string name="slide_3_desc">Encontre um evento que se encaixe no seu bolso!</string>
+
+    <string name="slide_4_title">+Teatro</string>
+    <string name="slide_4_desc">Tudo reunido em um só lugar!</string>
+
     <string name="login_cancelado">LogIn Cancelado</string>
     <string name="login_erro">Erro ao realizar Login</string>
     <string name="login_erro_firebase">Erro ao realizar Login no Firebase</string>
