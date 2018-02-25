@@ -7,11 +7,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import br.com.appteatro.appteatro.domain.model.Evento;
+import br.com.appteatro.appteatro.domain.model.Local;
 
 public class LocalActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -22,7 +26,7 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
     private TextView txtView_cidade;
     private TextView txtView_telefone;
     private MapView mapViewLocal;
-
+    protected Local local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +40,35 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
         txtView_cidade = (TextView) findViewById(R.id.txtView_cidade);
         txtView_telefone = (TextView) findViewById(R.id.txtView_telefone);
         mapViewLocal = (MapView) findViewById(R.id.mapView_local);
-        
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            local = (Local) bundle.get("local");
+
+            //TODO: setar imagem do local
+            txtView_nome.setText(local.nome);
+            txtView_endereco.setText(local.endereco);
+            txtView_complemento.setText(local.complemento);
+            txtView_cidade.setText(local.cidade);
+            txtView_telefone.setText(local.telefone);
+        }
+
         mapViewLocal.getMapAsync(this);
         mapViewLocal.onCreate(savedInstanceState);
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(-15.794020, -47.882611))
-                .title("Marker"));
+        if (local != null){
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(local.latitude),
+                            Double.parseDouble(local.longitude)))
+                    .title(local.nome));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(Double.parseDouble(local.latitude),
+                            Double.parseDouble(local.longitude)), 14));
+        }
+
 
     }
 
