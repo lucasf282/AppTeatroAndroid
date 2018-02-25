@@ -1,6 +1,8 @@
 package br.com.appteatro.appteatro.domain.model;
 
-public class Evento {
+import java.io.Serializable;
+
+public class Evento implements Serializable{
 
     public String nome;
     public String descricao;
