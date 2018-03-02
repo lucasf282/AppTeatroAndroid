@@ -1,5 +1,7 @@
 package br.com.appteatro.appteatro.fragement;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
@@ -8,14 +10,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.appteatro.appteatro.EventoActivity;
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
@@ -28,6 +34,7 @@ public class EventoFragment extends Fragment {
     private int tipo;
     private List<Evento> listaEventos;
     private SwipeRefreshLayout swipeLayout;
+    private ProgressBar progressBar;
 
     // Método para instanciar esse fragment pelo tipo.
     public static EventoFragment newInstance(int tipo) {
@@ -67,6 +74,8 @@ public class EventoFragment extends Fragment {
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefresh);
         swipeLayout.setOnRefreshListener(OnRefreshListener());
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar_frag_eventos);
+
 
         return view;
     }
@@ -78,11 +87,49 @@ public class EventoFragment extends Fragment {
     }
 
     private void taskEventos(boolean pullToRefresh) {
-        this.listaEventos = new ArrayList<>();
-        this.listaEventos = EventoService.getEventos(this.tipo);
+        //this.listaEventos = new ArrayList<>();
+        //this.listaEventos = EventoService.getEventos(this.tipo);
 
         // Atualiza a view na UI Thread
-        recyclerView.setAdapter(new EventoAdapter(getContext(), this.listaEventos));
+        //recyclerView.setAdapter(new EventoAdapter(getContext(), this.listaEventos, onClickEvento()));
+        new GetEventosTask(this.tipo).execute();
+    }
+
+    private class GetEventosTask extends AsyncTask<Void, Void, List<Evento>> {
+
+        private int tipo;
+
+        public GetEventosTask(int tipo){
+            super();
+            this.tipo = tipo;
+        }
+
+        @Override
+        protected List<Evento> doInBackground(Void... voids) {
+             return EventoService.getEventos(tipo);
+        }
+
+        protected void onPostExecute(List<Evento> eventos){
+            if (!eventos.isEmpty()){
+                EventoFragment.this.listaEventos = eventos;
+                EventoFragment.this.progressBar.setVisibility(View.GONE);
+                EventoFragment.this.swipeLayout.setVisibility(View.VISIBLE);
+
+                recyclerView.setAdapter(new EventoAdapter(getContext(), EventoFragment.this.listaEventos, onClickEvento()));
+            }
+        }
+    }
+
+    private EventoAdapter.EventoOnClickListener onClickEvento(){
+        return new EventoAdapter.EventoOnClickListener() {
+            @Override
+            public void onClickCarro(View view, int idx) {
+                Evento evento = listaEventos.get(idx);
+                Intent intent = new Intent(getContext(), EventoActivity.class);
+                intent.putExtra("evento", evento);
+                startActivity(intent);
+            }
+        };
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {

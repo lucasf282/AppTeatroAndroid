@@ -23,10 +23,12 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
 
     private final List<Evento> eventos;
     private final Context context;
+    private EventoOnClickListener eventoOnClickListener;
 
-    public EventoAdapter(Context context, List<Evento> eventos) {
+    public EventoAdapter(Context context, List<Evento> eventos, EventoOnClickListener eventoOnClickListener) {
         this.context = context;
         this.eventos = eventos;
+        this.eventoOnClickListener = eventoOnClickListener;
     }
 
     @Override
@@ -49,17 +51,20 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         Glide.with(this.context).load(e.imagem).into(holder.img);
         holder.tGenero.setText(e.genero);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, EventoActivity.class);
-                intent.putExtra("evento", eventos.get(position));
-                context.startActivity(intent);
-            }
-        });
+        if (eventoOnClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // A variável position é final
+                    eventoOnClickListener.onClickCarro(holder.itemView, position);
+                }
+            });
+        }
     }
 
+    public interface EventoOnClickListener {
+        public void onClickCarro(View view, int idx);
+    }
 
     // ViewHolder com as views
     public static class EventosViewHolder extends RecyclerView.ViewHolder{

@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
 
 public class EventoActivity extends AppCompatActivity {
@@ -36,6 +39,7 @@ public class EventoActivity extends AppCompatActivity {
             evento = (Evento) bundle.get("evento");
 
             //TODO: setar titulo, imagem, data e preco do evento
+            Glide.with(this).load(evento.imagem).into(img_capa);
             txt_local.setText(evento.local.nome);
             txt_desc.setText(evento.descricao);
         }

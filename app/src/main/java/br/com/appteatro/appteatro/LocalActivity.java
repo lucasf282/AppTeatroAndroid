@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -19,7 +20,7 @@ import br.com.appteatro.appteatro.domain.model.Local;
 
 public class LocalActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView imgCapa;
+    private ImageView img_capa;
     private TextView txtView_nome;
     private TextView txtView_endereco;
     private TextView txtView_complemento;
@@ -33,7 +34,7 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
 
-        imgCapa = (ImageView) findViewById(R.id.imgView_capaLocalDesc);
+        img_capa = (ImageView) findViewById(R.id.imgView_capaLocalDesc);
         txtView_nome = (TextView) findViewById(R.id.txtView_nome);
         txtView_endereco = (TextView) findViewById(R.id.txtView_endereco);
         txtView_complemento = (TextView) findViewById(R.id.txtView_complemento);
@@ -45,6 +46,7 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
             local = (Local) bundle.get("local");
 
             //TODO: setar imagem do local
+            //Glide.with(this).load(local.imagem).into(img_capa);
             txtView_nome.setText(local.nome);
             txtView_endereco.setText(local.endereco);
             txtView_complemento.setText(local.complemento);
