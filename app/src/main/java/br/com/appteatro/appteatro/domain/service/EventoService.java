@@ -44,7 +44,7 @@ public class EventoService {
     }
 
     private static String montaURL(int tipo) {
-        if (tipo == 2131558480) {
+        if (tipo == 0) {
             // Aba 0 Eventos
             return URL;
         } else {

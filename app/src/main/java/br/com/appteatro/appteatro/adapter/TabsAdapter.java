@@ -37,11 +37,11 @@ public class TabsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment f = null;
         if (position == 0) {
-            f = EventoFragment.newInstance(R.string.eventos);
+            f = EventoFragment.newInstance(0);
         } else if (position == 1) {
-            f = EventoFragment.newInstance(R.string.destaque);
+            f = EventoFragment.newInstance(1);
         } else {
-            f = EventoFragment.newInstance(R.string.favoritos);
+            f = EventoFragment.newInstance(2);
         }
         return f;
     }

@@ -24,7 +24,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".WelcomeActivity">
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,8 +55,12 @@
             android:name=".ChatRoomActivity"
             android:label="@string/title_activity_chat_room"
             android:parentActivityName=".RoomActivity" />
-        <activity android:name=".EventoActivity" />
-        <activity android:name=".LocalActivity" />
+        <activity
+            android:name=".EventoActivity"
+            android:parentActivityName=".MenuLateralActivity" />
+        <activity
+            android:name=".LocalActivity"
+            android:parentActivityName=".EventoActivity" />
         <activity
             android:name=".PerfilActivity"
             android:label="@string/title_activity_perfil"

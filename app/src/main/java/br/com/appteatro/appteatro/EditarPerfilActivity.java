@@ -72,7 +72,9 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
     private void popularAtributosUsuario() {
         nomeTextView.setText(user.getDisplayName());
-        Glide.with(this).load(user.getPhotoUrl()).into(photoImageView);
+        if(user.getPhotoUrl() != null) {
+            Glide.with(this).load(user.getPhotoUrl()).into(photoImageView);
+        }
     }
 
     private void chooseImage() {
@@ -87,12 +89,13 @@ public class EditarPerfilActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                photoImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Glide.with(this).load(filePath).into(photoImageView);
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+//                photoImageView.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
