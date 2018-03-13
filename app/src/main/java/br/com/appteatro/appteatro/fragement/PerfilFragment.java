@@ -16,8 +16,8 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import br.com.appteatro.appteatro.EditarPerfilActivity;
-import br.com.appteatro.appteatro.LoginActivity;
+import br.com.appteatro.appteatro.Activities.EditarPerfilActivity;
+import br.com.appteatro.appteatro.Activities.LoginActivity;
 import br.com.appteatro.appteatro.R;
 
 public class PerfilFragment extends Fragment {

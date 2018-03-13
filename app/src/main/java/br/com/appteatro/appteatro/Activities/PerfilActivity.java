@@ -1,4 +1,4 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
 
 public class PerfilActivity extends AppCompatActivity {

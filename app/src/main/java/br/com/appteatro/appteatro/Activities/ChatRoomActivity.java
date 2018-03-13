@@ -1,4 +1,4 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import br.com.appteatro.appteatro.R;
+
 public class ChatRoomActivity extends AppCompatActivity {
 
     private Button btn_send_msg;
@@ -32,6 +34,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     private String user_name, room_name;
     private DatabaseReference root;
     private String temp_key;
+    private String chat_msg, chat_user_name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,8 +120,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
 
     }
-
-    private String chat_msg, chat_user_name;
 
     private void append_chat_conversation(DataSnapshot dataSnapshot) {
 

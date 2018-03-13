@@ -1,10 +1,11 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.fragement.RoomFragment;
 
 

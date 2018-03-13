@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.appteatro.appteatro.EditarPerfilActivity">
+    tools:context="br.com.appteatro.appteatro.Activities.EditarPerfilActivity">
 
 
     <ImageView
@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnChoose"
         android:layout_toEndOf="@+id/textView3"
-        android:text="Nome"
         android:ems="10"
         android:maxLength="50"
+        android:text="Nome"
         android:textSize="20sp" />
 
     <TextView

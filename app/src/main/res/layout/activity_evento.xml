@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:contextClickable="true"
-    tools:context="br.com.appteatro.appteatro.EventoActivity"
+    tools:context="br.com.appteatro.appteatro.Activities.EventoActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <ImageView

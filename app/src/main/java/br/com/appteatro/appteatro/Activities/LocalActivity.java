@@ -1,4 +1,4 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +15,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.domain.model.Evento;
 import br.com.appteatro.appteatro.domain.model.Local;
 
 public class LocalActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    protected Local local;
     private ImageView img_capa;
     private TextView txtView_nome;
     private TextView txtView_endereco;
@@ -27,7 +29,6 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
     private TextView txtView_cidade;
     private TextView txtView_telefone;
     private MapView mapViewLocal;
-    protected Local local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

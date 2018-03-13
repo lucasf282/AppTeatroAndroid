@@ -1,16 +1,12 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,14 +23,10 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.TabsAdapter;
-import br.com.appteatro.appteatro.fragement.EventoFragment;
-import br.com.appteatro.appteatro.fragement.ImportFragment;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
 import br.com.appteatro.appteatro.fragement.dialog.AboutDialog;
-import br.com.appteatro.appteatro.utils.Prefs;
-
-import static java.security.AccessController.getContext;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

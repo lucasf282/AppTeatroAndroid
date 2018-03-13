@@ -1,10 +1,8 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,24 +25,21 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.util.UUID;
+
+import br.com.appteatro.appteatro.R;
 
 public class EditarPerfilActivity extends AppCompatActivity {
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    private EditText nomeTextView;
-    private Button btnChoose, btnUpload;
-    private ImageView photoImageView;
-
-    private Uri filePath;
-
     private final int PICK_IMAGE_REQUEST = 71;
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
+    private EditText nomeTextView;
+    private Button btnChoose, btnUpload;
+    private ImageView photoImageView;
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

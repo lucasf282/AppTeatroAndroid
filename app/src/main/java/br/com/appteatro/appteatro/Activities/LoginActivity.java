@@ -1,4 +1,4 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,15 +36,15 @@ import com.google.firebase.auth.FacebookAuthProvider;
 
 import java.util.Arrays;
 
+import br.com.appteatro.appteatro.R;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    public static final int SIGN_IN_CODE = 777;
     private CallbackManager callbackManager;
     private LoginButton facebookButton;
-
     private GoogleApiClient googleApiClient;
     private SignInButton googleButton;
-    public static final int SIGN_IN_CODE = 777;
-
     private Button entrarButton;
     private Button btn_sigin;
 

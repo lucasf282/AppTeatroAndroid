@@ -1,28 +1,27 @@
-package br.com.appteatro.appteatro;
+package br.com.appteatro.appteatro.Activities;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import br.com.appteatro.appteatro.adapter.EventoAdapter;
+import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.domain.model.Evento;
 
 public class EventoActivity extends AppCompatActivity {
 
+    Evento evento;
     private ConstraintLayout linhaLocal;
     private ImageView img_capa;
     private TextView txt_data;
     private TextView txt_local;
     private TextView txt_preco;
     private TextView txt_desc;
-    Evento evento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
