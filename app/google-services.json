@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "500499682597-hq5nb4vskmn9jnhbk4pqati3ve5jsj8u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.appteatro.appteatro",
+            "certificate_hash": "c5c81ad54a10fbe8d1760608b241aa3d95ad9b92"
+          }
+        },
+        {
           "client_id": "500499682597-to2ut6mo9e8iborrdemip8f9c57n51m6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

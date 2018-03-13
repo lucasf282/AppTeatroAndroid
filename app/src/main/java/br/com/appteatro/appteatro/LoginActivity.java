@@ -135,8 +135,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.login_erro_firebase, Toast.LENGTH_LONG).show();
+                    aparecerComponentesTela();
                 }
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -185,6 +186,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             firebaseAuthWithGoogle(result.getSignInAccount());
         } else {
             Toast.makeText(this, R.string.not_log_in, Toast.LENGTH_SHORT).show();
+            aparecerComponentesTela();
         }
     }
 
@@ -201,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 if (!task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.not_firebase_auth, Toast.LENGTH_SHORT).show();
+                    aparecerComponentesTela();
                 }
             }
         });
@@ -232,10 +235,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 goMainScreen();
                             } else {
                                 // If sign in fails, display a message to the user.
+                                aparecerComponentesTela();
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
-                            progressBar.setVisibility(View.GONE);
+                            //progressBar.setVisibility(View.GONE);
 
                         }
                     });
@@ -264,6 +268,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btn_sigin.setVisibility(View.GONE);
         mEmailField.setVisibility(View.GONE);
         mPasswordField.setVisibility(View.GONE);
+    }
+
+    private void aparecerComponentesTela() {
+        progressBar.setVisibility(View.GONE);
+        googleButton.setVisibility(View.VISIBLE);
+        facebookButton.setVisibility(View.VISIBLE);
+        entrarButton.setVisibility(View.VISIBLE);
+        btn_sigin.setVisibility(View.VISIBLE);
+        mEmailField.setVisibility(View.VISIBLE);
+        mPasswordField.setVisibility(View.VISIBLE);
     }
 
     private void goMainScreen() {

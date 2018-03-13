@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AppTeatro</string>
     <string name="facebook_app_id">1521855401241144</string>
+    <string name="fb_login_protocol_scheme">fb1521855401241144</string>
+
+    <string name="google_maps_key">AIzaSyAqHtftBTlkHugteL_9T1zPK_yh9zLdi84</string>
 
     <string name="next">PRÓXIMO</string>
     <string name="skip">PULAR</string>
@@ -66,8 +69,5 @@ Versao %s<br><br>
     <string name="title_activity_perfil">PerfilActivity</string>
 
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
-
-
-    <string name="google_maps_key">AIzaSyAqHtftBTlkHugteL_9T1zPK_yh9zLdi84</string>
 
 </resources>
