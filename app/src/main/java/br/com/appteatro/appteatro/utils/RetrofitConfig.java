@@ -1,6 +1,8 @@
 package br.com.appteatro.appteatro.utils;
 
 import br.com.appteatro.appteatro.services.EventService;
+import br.com.appteatro.appteatro.services.FavoriteService;
+import br.com.appteatro.appteatro.services.UserService;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -21,6 +23,14 @@ public class RetrofitConfig {
 
     public EventService getEventService() {
         return this.retrofit.create(EventService.class);
+    }
+
+    public UserService getUserService() {
+        return this.retrofit.create(UserService.class);
+    }
+
+    public FavoriteService getFavoriteService() {
+        return this.retrofit.create(FavoriteService.class);
     }
 
 }

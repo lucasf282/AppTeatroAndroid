@@ -1,7 +1,6 @@
 package br.com.appteatro.appteatro.fragement;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
@@ -10,12 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,8 @@ import br.com.appteatro.appteatro.Activities.EventoActivity;
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
-import br.com.appteatro.appteatro.domain.service.EventoService;
+import br.com.appteatro.appteatro.domain.model.Favorito;
+import br.com.appteatro.appteatro.domain.model.Usuario;
 import br.com.appteatro.appteatro.utils.AndroidUtils;
 import br.com.appteatro.appteatro.utils.RetrofitConfig;
 import retrofit2.Call;
@@ -39,6 +41,7 @@ public class EventoFragment extends Fragment {
     private List<Evento> listaEventos;
     private SwipeRefreshLayout swipeLayout;
     private ProgressBar progressBar;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // Método para instanciar esse fragment pelo tipo.
     public static EventoFragment newInstance(int tipo) {
@@ -91,25 +94,57 @@ public class EventoFragment extends Fragment {
     }
 
     private void taskEventos(boolean pullToRefresh) {
-        //this.listaEventos = new ArrayList<>();
-        //this.listaEventos = EventoService.getEventos(this.tipo);
-
-        // Atualiza a view na UI Thread
-        //recyclerView.setAdapter(new EventoAdapter(getContext(), this.listaEventos, onClickEvento()));
-        //new GetEventosTask(this.tipo).execute();
-        obterListaEventos();
+        if (this.tipo == 0) {
+            obterListaEventos();
+        } else if (this.tipo == 1) {
+            obterListaEventos();
+        } else {
+            obterListaEventosFavorito();
+        }
     }
 
     private EventoAdapter.EventoOnClickListener onClickEvento(){
         return new EventoAdapter.EventoOnClickListener() {
             @Override
-            public void onClickCarro(View view, int idx) {
+            public void onClickEvento(View view, int idx) {
                 Evento evento = listaEventos.get(idx);
                 Intent intent = new Intent(getContext(), EventoActivity.class);
                 intent.putExtra("evento", evento);
                 startActivity(intent);
             }
         };
+    }
+
+    private EventoAdapter.FavoritoOnCheckedChangeListener onCheckedChangeListener(){
+        return new EventoAdapter.FavoritoOnCheckedChangeListener() {
+            @Override
+            public void onClickFavorito(View view, int idx, boolean isChecked) {
+                if(isChecked){
+                    Favorito favarito = new Favorito();
+                    favarito.setUid(user.getUid());
+                    favarito.setEvento(listaEventos.get(idx));
+                    salvarFavorito(favarito);
+                } else{
+                    // TODO Implementar serviço para remover Favorito
+                }
+
+            }
+        };
+    }
+
+    private void salvarFavorito(Favorito favarito){
+        Call<Favorito> call = new RetrofitConfig().getFavoriteService().inserirFavorito(favarito);
+        call.enqueue(new Callback<Favorito>() {
+            @Override
+            public void onResponse(Call<Favorito> call, Response<Favorito> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Favorito> call, Throwable t) {
+                Toast.makeText(getActivity(), "Erro ao favoritar o evento.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
@@ -137,25 +172,37 @@ public class EventoFragment extends Fragment {
                 System.out.println(response);
                 listaEvents = response.body();
                 atualizaTabelaEventos(listaEvents);
-//                    CEP cep = response.body();
-//                    resposta.setText(cep.toString());
             }
 
             @Override
             public void onFailure(Call<List<Evento>> call, Throwable t) {
-                Log.e("CEPService   ", "Erro ao buscar o cep:" + t.getMessage());
+                Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void obterListaEventosFavorito(){
+        Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventosFavoritoPorUsuario(user.getUid());
+        call.enqueue(new Callback<List<Evento>>() {
+            @Override
+            public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
+                System.out.println(response);
+                listaEvents = response.body();
+                atualizaTabelaEventos(listaEvents);
+            }
+
+            @Override
+            public void onFailure(Call<List<Evento>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void atualizaTabelaEventos(List<Evento> eventos) {
-        if (!eventos.isEmpty()) {
-            EventoFragment.this.listaEventos = eventos;
-            EventoFragment.this.progressBar.setVisibility(View.GONE);
-            EventoFragment.this.swipeLayout.setVisibility(View.VISIBLE);
-
-            recyclerView.setAdapter(new EventoAdapter(getContext(), EventoFragment.this.listaEventos, onClickEvento()));
-        }
+        EventoFragment.this.listaEventos = eventos;
+        EventoFragment.this.progressBar.setVisibility(View.GONE);
+        EventoFragment.this.swipeLayout.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(new EventoAdapter(getContext(), EventoFragment.this.listaEventos, onClickEvento(), onCheckedChangeListener()));
     }
 
 }

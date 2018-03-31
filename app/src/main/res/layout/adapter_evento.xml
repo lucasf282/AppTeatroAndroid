@@ -29,6 +29,13 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 app:srcCompat="@drawable/thumb_default"/>
+
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textOn=""
+                android:textOff="" />
         </FrameLayout>
 
         <TextView

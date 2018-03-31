@@ -1,12 +1,15 @@
 package br.com.appteatro.appteatro.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 
@@ -18,13 +21,15 @@ import br.com.appteatro.appteatro.domain.model.Evento;
 public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosViewHolder> {
 
     private final List<Evento> eventos;
-    private final Context context;
+    private static  Context context;
     private EventoOnClickListener eventoOnClickListener;
+    private FavoritoOnCheckedChangeListener favoritoOnCheckedChangeListener;
 
-    public EventoAdapter(Context context, List<Evento> eventos, EventoOnClickListener eventoOnClickListener) {
+    public EventoAdapter(Context context, List<Evento> eventos, EventoOnClickListener eventoOnClickListener, FavoritoOnCheckedChangeListener favoritoOnCheckedChangeListener) {
         this.context = context;
         this.eventos = eventos;
         this.eventoOnClickListener = eventoOnClickListener;
+        this.favoritoOnCheckedChangeListener = favoritoOnCheckedChangeListener;
     }
 
     @Override
@@ -52,14 +57,33 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
                 @Override
                 public void onClick(View v) {
                     // A variável position é final
-                    eventoOnClickListener.onClickCarro(holder.itemView, position);
+                    eventoOnClickListener.onClickEvento(holder.itemView, position);
+                }
+            });
+        }
+
+        if(favoritoOnCheckedChangeListener != null){
+            holder.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.ic_favorite_black_24dp));
+                        favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
+                    }
+                    else {
+                        holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+                    }
                 }
             });
         }
     }
 
     public interface EventoOnClickListener {
-        public void onClickCarro(View view, int idx);
+        public void onClickEvento(View view, int idx);
+    }
+
+    public interface FavoritoOnCheckedChangeListener{
+        public void onClickFavorito(View view, int idx, boolean isChecked);
     }
 
     // ViewHolder com as views
@@ -67,6 +91,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         public TextView tNome;
         public ImageView img;
         public TextView tGenero;
+        public ToggleButton toggleButton;
 
         public EventosViewHolder(View view) {
             super(view);
@@ -74,6 +99,10 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             tNome = (TextView) view.findViewById(R.id.text);
             img = (ImageView) view.findViewById(R.id.img);
             tGenero = (TextView) view.findViewById(R.id.genero);
+
+            toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
+            toggleButton.setChecked(false);
+            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
         }
     }
 }
