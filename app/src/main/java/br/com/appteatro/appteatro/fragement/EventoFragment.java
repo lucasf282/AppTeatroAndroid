@@ -29,6 +29,7 @@ import br.com.appteatro.appteatro.domain.model.Favorito;
 import br.com.appteatro.appteatro.domain.model.Usuario;
 import br.com.appteatro.appteatro.utils.AndroidUtils;
 import br.com.appteatro.appteatro.utils.RetrofitConfig;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -119,13 +120,14 @@ public class EventoFragment extends Fragment {
         return new EventoAdapter.FavoritoOnCheckedChangeListener() {
             @Override
             public void onClickFavorito(View view, int idx, boolean isChecked) {
+                Favorito favarito = new Favorito();
+                favarito.setUid(user.getUid());
+                favarito.setEvento(listaEventos.get(idx));
                 if(isChecked){
-                    Favorito favarito = new Favorito();
-                    favarito.setUid(user.getUid());
-                    favarito.setEvento(listaEventos.get(idx));
                     salvarFavorito(favarito);
                 } else{
                     // TODO Implementar serviço para remover Favorito
+                    deletarFavorito(favarito);
                 }
 
             }
@@ -143,6 +145,21 @@ public class EventoFragment extends Fragment {
             @Override
             public void onFailure(Call<Favorito> call, Throwable t) {
                 Toast.makeText(getActivity(), "Erro ao favoritar o evento.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deletarFavorito(Favorito favarito){
+        Call<ResponseBody> call = new RetrofitConfig().getFavoriteService().deletarFavorito(favarito);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), "Erro ao deletar o evento.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -165,7 +182,7 @@ public class EventoFragment extends Fragment {
     }
 
     private void obterListaEventos(){
-        Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventos();
+        Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventos(user.getUid());
         call.enqueue(new Callback<List<Evento>>() {
             @Override
             public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {

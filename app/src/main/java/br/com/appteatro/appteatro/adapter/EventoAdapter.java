@@ -51,6 +51,10 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         holder.tNome.setText(e.nome);
         Glide.with(this.context).load(e.imagem).into(holder.img);
         holder.tGenero.setText(e.genero);
+        if(e.favoritado != null && e.favoritado) {
+            holder.toggleButton.setChecked(e.favoritado);
+            holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
+        }
 
         if (eventoOnClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +76,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
                     }
                     else {
                         holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+                        favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
                     }
                 }
             });
