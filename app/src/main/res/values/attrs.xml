@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="TheaterLoadView">
+        <attr name="fillColor" format="color" />
+    </declare-styleable>
+</resources>

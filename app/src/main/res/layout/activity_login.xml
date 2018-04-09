@@ -80,17 +80,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_cadastrar" />
-
-
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:indeterminate="true"
-        android:visibility="gone" />
+    <br.com.appteatro.appteatro.CustomView.TheaterLoadView
+    android:id="@+id/progressBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:indeterminate="true"
+    android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

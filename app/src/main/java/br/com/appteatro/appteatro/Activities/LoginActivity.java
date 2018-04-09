@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 
 import java.util.Arrays;
 
+import br.com.appteatro.appteatro.CustomView.TheaterLoadView;
 import br.com.appteatro.appteatro.R;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -47,11 +49,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleButton;
     private Button entrarButton;
     private Button btn_sigin;
+    private ImageView img_logo;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
-    private ProgressBar progressBar;
+    private TheaterLoadView progressBar;
 
     private EditText mEmailField;
     private EditText mPasswordField;
@@ -86,7 +89,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         };
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (TheaterLoadView) findViewById(R.id.progressBar);
+        img_logo = (ImageView) findViewById(R.id.img_logo);
 
         btn_sigin = (Button) findViewById(R.id.btn_sigin);
         btn_sigin.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +141,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Toast.makeText(getApplicationContext(), R.string.login_erro_firebase, Toast.LENGTH_LONG).show();
                     aparecerComponentesTela();
                 }
-                //progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -239,7 +242,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
-                            //progressBar.setVisibility(View.GONE);
 
                         }
                     });
@@ -262,16 +264,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void sumirComponentesTelaAoCarregar() {
         progressBar.setVisibility(View.VISIBLE);
+        img_logo.setVisibility(View.GONE);
         googleButton.setVisibility(View.GONE);
         facebookButton.setVisibility(View.GONE);
         entrarButton.setVisibility(View.GONE);
         btn_sigin.setVisibility(View.GONE);
         mEmailField.setVisibility(View.GONE);
         mPasswordField.setVisibility(View.GONE);
+
     }
 
     private void aparecerComponentesTela() {
         progressBar.setVisibility(View.GONE);
+        img_logo.setVisibility(View.VISIBLE);
         googleButton.setVisibility(View.VISIBLE);
         facebookButton.setVisibility(View.VISIBLE);
         entrarButton.setVisibility(View.VISIBLE);
