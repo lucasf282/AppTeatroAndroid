@@ -1,14 +1,18 @@
 package br.com.appteatro.appteatro.Activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +42,7 @@ import br.com.appteatro.appteatro.R;
 public class EditarPerfilActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 71;
+    private final int  MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 10;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //Firebase
     FirebaseStorage storage;
@@ -65,7 +70,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPictureDialog();
+                verificarPermissaoImagem();
             }
         });
     }
@@ -77,12 +82,27 @@ public class EditarPerfilActivity extends AppCompatActivity {
         }
     }
 
+    private void verificarPermissaoImagem(){
+        if (ContextCompat.checkSelfPermission(EditarPerfilActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+                ActivityCompat.requestPermissions(EditarPerfilActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+        } else {
+            showPictureDialog();
+        }
+    }
+
     private void showPictureDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-        pictureDialog.setTitle("Select Action");
+        pictureDialog.setTitle("Selecione uma foto");
         String[] pictureDialogItems = {
-                "Selecione uma foto da Galeria",
-                "Capture uma foto da Câmera"};
+                "Galeria",
+                "Câmera"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -110,6 +130,30 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    showPictureDialog();
+
+                } else {
+
+                    Toast.makeText(EditarPerfilActivity.this, "Para editar o perfil é necessario permitir o acesso",
+                            Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {

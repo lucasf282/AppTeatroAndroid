@@ -61,6 +61,7 @@
             android:parentActivityName=".Activities.MenuLateralActivity" />
         <activity
             android:name=".Activities.LocalActivity"
+            android:label="Local"
             android:parentActivityName=".Activities.EventoActivity" />
         <activity
             android:name=".Activities.PerfilActivity"
@@ -68,7 +69,7 @@
             android:parentActivityName=".Activities.MenuLateralActivity"></activity>
         <activity
             android:name=".Activities.EditarPerfilActivity"
-            android:label="Meu Perfil"
+            android:label="Editar Perfil"
             android:parentActivityName=".Activities.PerfilActivity" />
 
         <service android:name=".services.FCMMessageService">

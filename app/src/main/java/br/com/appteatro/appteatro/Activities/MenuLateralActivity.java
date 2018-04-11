@@ -23,6 +23,9 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.TabsAdapter;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
@@ -110,11 +113,12 @@ public class MenuLateralActivity extends AppCompatActivity
         } else if (id == R.id.nav_chat) {
             Intent intent = new Intent(this, RoomActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
+//        else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         this.acionarFragment(fragment);
 
@@ -165,11 +169,41 @@ public class MenuLateralActivity extends AppCompatActivity
         // ViewPager
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(2);
-        viewPager.setAdapter(new TabsAdapter(this, getSupportFragmentManager()));
+        final TabsAdapter mPagerAdapter = new TabsAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(mPagerAdapter);
         // Tabs
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         // Cria as tabs com o mesmo adapter utilizado pelo ViewPager
         tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//
+//                //get fragment for the selected tab
+//                Fragment f = mPagerAdapter.getItem(tab.getPosition());
+//
+//                //load the content of the fragment
+//                try
+//                {
+//                    Class c = f.getClass();
+//                    Method loadFragment = c.getMethod("loadFragment");
+//                    loadFragment.invoke(f);
+//                }
+//                catch (IllegalAccessException e){}
+//                catch (InvocationTargetException e){}
+//                catch (NoSuchMethodException e){}
+//            }
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//            }
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//            }
+//        });
+
+
+
     }
 
 }

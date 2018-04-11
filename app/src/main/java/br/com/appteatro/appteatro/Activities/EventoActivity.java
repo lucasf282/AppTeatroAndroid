@@ -54,6 +54,7 @@ public class EventoActivity extends AppCompatActivity {
                 Glide.with(this).load(evento.imagem).into(img_capa);
                 txt_local.setText(evento.local.nome);
                 txt_desc.setText(evento.descricao);
+                setTitle(evento.getNome());
             }
         }
         ConstraintLayout linhaLocal = (ConstraintLayout) findViewById(R.id.cl_local);

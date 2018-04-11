@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'debugKey'
             keyPassword '123456'
-            storeFile file('/Users/lucasfarias/Documents/GitHub/AppTeatro/MyDebugKeyStore')
+            storeFile file('C:\\Users\\Windows 10\\AndroidStudioProjects\\AppTeatroAndroid\\MyDebugKeyStore')
             storePassword '123456'
         }
         configThiago {

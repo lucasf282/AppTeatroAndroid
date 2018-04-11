@@ -42,7 +42,7 @@
     <string name="btn_cancelar">Cancelar</string>
 
     <string name="img_desc_capa_evento">capa do evento</string>
-    <string name="title_activity_menu_lateral">MenuLateralActivity</string>
+    <string name="title_activity_menu_lateral"></string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -51,7 +51,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_room">RoomActivity</string>
+    <string name="title_activity_room">Salas de Bate-Papo</string>
     <string name="title_activity_chat_room">ChatRoomActivity</string>
 
     <!-- Tabs -->
@@ -66,7 +66,7 @@ Versao %s<br><br>
 <a href="https://github.com/lucasf282/AppTeatroAndroid">https://github.com</a><br><br>
 	]]>
 	</string>
-    <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="title_activity_perfil">Meu Perfil</string>
 
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
 

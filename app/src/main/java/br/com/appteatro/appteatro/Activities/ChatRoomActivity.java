@@ -47,7 +47,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
-        setTitle(" Room - " + room_name);
+        setTitle(" Sala - " + room_name);
 
         root = FirebaseDatabase.getInstance().getReference().child(room_name);
 
