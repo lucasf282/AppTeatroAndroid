@@ -61,8 +61,7 @@
             android:parentActivityName=".Activities.MenuLateralActivity" />
         <activity
             android:name=".Activities.LocalActivity"
-            android:label="Local"
-            android:parentActivityName=".Activities.EventoActivity" />
+            android:label="Local" />
         <activity
             android:name=".Activities.PerfilActivity"
             android:label="@string/title_activity_perfil"

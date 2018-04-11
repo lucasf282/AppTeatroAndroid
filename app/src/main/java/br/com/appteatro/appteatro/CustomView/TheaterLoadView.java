@@ -1,6 +1,7 @@
 package br.com.appteatro.appteatro.CustomView;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,36 +15,45 @@ import br.com.appteatro.appteatro.R;
  */
 public class TheaterLoadView extends View {
 
-    private int mColor = Color.WHITE; // TODO: use a default from R.color...
-
+    private int fillColor = Color.GRAY;
     private Paint mPaint;
     private boolean isIncreasing = true;
     private int increasing = 2;
     private int minRadius = 100;
     private int radius = minRadius;
     private int fps = 60;
+    private Context context;
 
 
     public TheaterLoadView(Context context) {
         super(context);
+        this.context = context;
         init(null, 0);
     }
 
     public TheaterLoadView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init(attrs, 0);
     }
 
     public TheaterLoadView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         init(attrs, defStyle);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
+        final TypedArray a = this.context.getTheme().obtainStyledAttributes(attrs, R.styleable.TheaterLoadView, 0, 0);
+
+        try {
+            fillColor = a.getColor(R.styleable.TheaterLoadView_fillColor, fillColor);
+        }finally {
+            a.recycle();
+        }
 
         mPaint = new Paint();
-        mPaint.setColor(mColor);
+        mPaint.setColor(fillColor);
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
 

@@ -1,8 +1,10 @@
 package br.com.appteatro.appteatro.Activities;
 
+import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +37,9 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         img_capa = (ImageView) findViewById(R.id.imgView_capaLocalDesc);
         txtView_nome = (TextView) findViewById(R.id.txtView_nome);
         txtView_endereco = (TextView) findViewById(R.id.txtView_endereco);
@@ -58,6 +63,16 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
         mapViewLocal.getMapAsync(this);
         mapViewLocal.onCreate(savedInstanceState);
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) { 
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:break;
+        }
+        return true;
     }
 
     @Override
