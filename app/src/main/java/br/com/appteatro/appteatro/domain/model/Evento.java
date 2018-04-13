@@ -1,10 +1,8 @@
 package br.com.appteatro.appteatro.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
+import java.util.List;
 
-@JsonIgnoreProperties({"listaAgenda", "listaIngresso"})
 public class Evento implements Serializable{
 
     public Long id;
@@ -12,7 +10,7 @@ public class Evento implements Serializable{
     public String descricao;
     public String imagem;
     public String genero;
-    //public List<Agenda> listaAgenda;
+    public List<Agenda> listaAgenda;
     public Local local;
     public Boolean favoritado;
 
