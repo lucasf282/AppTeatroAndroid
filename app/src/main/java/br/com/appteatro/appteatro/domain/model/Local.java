@@ -21,6 +21,8 @@ public class Local implements Serializable{
 
     public String longitude;
 
+    public String imagem;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class Local implements Serializable{
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

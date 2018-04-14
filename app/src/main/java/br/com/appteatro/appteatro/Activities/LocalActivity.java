@@ -51,8 +51,7 @@ public class LocalActivity extends AppCompatActivity implements OnMapReadyCallba
         if (bundle != null){
             local = (Local) bundle.get("local");
 
-            //TODO: setar imagem do local
-            //Glide.with(this).load(local.imagem).into(img_capa);
+            Glide.with(this).load(local.imagem).into(img_capa);
             txtView_nome.setText(local.nome);
             txtView_endereco.setText(local.endereco);
             txtView_complemento.setText(local.complemento);
