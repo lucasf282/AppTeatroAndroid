@@ -3,7 +3,10 @@ package br.com.appteatro.appteatro.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -171,6 +174,66 @@ public class HttpHelper {
         }
         return s;
     }
+
+    public String doRequestNotification(String url, String title, String body, String charset) throws IOException {
+
+        String params = "{" +
+                "\"to\" : \"" + FirebaseInstanceId.getInstance().getToken() +"\"," +
+                "\"notification\" : {" +
+                "\"title\" : \"" + title + "\"," +
+                "\"body\" : \"" + body + "\"" +
+                "}, " +
+                " }";
+
+        byte[] bytes = params != null ? params.getBytes(charset) : null;
+        if (LOG_ON) {
+            Log.d(TAG, ">> Http.doPost: " + url);
+        }
+
+        URL u = new URL(url);
+        HttpURLConnection conn = null;
+        String s = null;
+        try {
+            conn = (HttpURLConnection) u.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", "key=AIzaSyCu9PQjhol1TFeXFD53kWB3CyPG4bS0oRs");
+            conn.setRequestMethod("POST");
+            conn.setConnectTimeout(TIMEOUT_MILLIS);
+            conn.setReadTimeout(TIMEOUT_MILLIS);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+
+            if (bytes != null) {
+                OutputStream out = conn.getOutputStream();
+                out.write(bytes);
+                out.flush();
+                out.close();
+            }
+            InputStream in = null;
+            int status = conn.getResponseCode();
+            if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
+                Log.d(TAG, "Error code: " + status);
+                in = conn.getErrorStream();
+            } else {
+                in = conn.getInputStream();
+            }
+            s = IOUtils.toString(in, charset);
+            if (LOG_ON) {
+                Log.d(TAG, "<< Http.doPost: " + s);
+            }
+            in.close();
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return s;
+    }
+
+
 
     public Bitmap doGetBitmap(String url) throws IOException {
         if (LOG_ON) {

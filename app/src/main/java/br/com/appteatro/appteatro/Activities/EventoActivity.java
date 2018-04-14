@@ -52,9 +52,9 @@ public class EventoActivity extends AppCompatActivity {
 
                 //TODO: setar titulo, imagem, data e preco do evento
                 Glide.with(this).load(evento.imagem).into(img_capa);
-//                txt_data.setText(evento.getAgenda().getData());
+//                txt_data.setText(evento.listaAgenda.get(0).getData());
                 txt_local.setText(evento.getLocal().getNome());
-//                txt_preco.setText(evento.getIngersso().getPreco());
+                txt_preco.setText(evento.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
                 txt_desc.setText(evento.getDescricao());
                 setTitle(evento.getNome());
             }

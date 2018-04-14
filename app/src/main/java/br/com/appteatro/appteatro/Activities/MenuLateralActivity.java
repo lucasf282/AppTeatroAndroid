@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,21 +19,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
+import java.io.IOException;
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.TabsAdapter;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
 import br.com.appteatro.appteatro.fragement.dialog.AboutDialog;
+import br.com.appteatro.appteatro.utils.HttpHelper;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final String TAG = "MenuLateralActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,23 @@ public class MenuLateralActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             AboutDialog.showAbout(getSupportFragmentManager());
+            return true;
+        }if (id == R.id.action_push){
+            HttpHelper httpHelper = new HttpHelper();
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            if (user.getDisplayName()!= null){
+
+            }
+
+            try {
+                httpHelper.doRequestNotification("https://fcm.googleapis.com/fcm/send", user.getDisplayName()!= null ? user.getDisplayName(): user.getEmail(),"Seja bem vindo ao aplicativo +Teatro", "UTF-8");
+                Toast.makeText(MenuLateralActivity.this, "Notificação solicitada. Aguarde alguns minutos.", Toast.LENGTH_LONG).show();
+            }catch (IOException e){
+                Log.e(TAG, e.getMessage());
+                Toast.makeText(MenuLateralActivity.this, "Não foi possível solicitar a notificação.", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
