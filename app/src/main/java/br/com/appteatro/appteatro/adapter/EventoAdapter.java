@@ -39,7 +39,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
 
     @Override
     public EventosViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_evento, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_events_row, viewGroup, false);
         EventosViewHolder holder = new EventosViewHolder(view);
         return holder;
     }
@@ -48,9 +48,11 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
     public void onBindViewHolder(final EventosViewHolder holder, final int position) {
         // Atualiza a view
         Evento e = eventos.get(position);
-        holder.tNome.setText(e.nome);
-        Glide.with(this.context).load(e.imagem).into(holder.img);
-        holder.tGenero.setText(e.genero);
+        Glide.with(this.context).load(e.imagem).into(holder.img_thumb);
+        holder.txt_nome.setText(e.nome);
+        holder.txt_data.setText("25/04/2018");
+        holder.txt_local.setText(e.getLocal().getNome());
+        holder.txt_preco.setText(e.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
         if(e.favoritado != null && e.favoritado) {
             holder.toggleButton.setChecked(e.favoritado);
             holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
@@ -93,19 +95,23 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
 
     // ViewHolder com as views
     public static class EventosViewHolder extends RecyclerView.ViewHolder{
-        public TextView tNome;
-        public ImageView img;
-        public TextView tGenero;
+        public TextView txt_nome;
+        public TextView txt_data;
+        public TextView txt_local;
+        public TextView txt_preco;
+        public ImageView img_thumb;
         public ToggleButton toggleButton;
 
         public EventosViewHolder(View view) {
             super(view);
             // Cria as views para salvar no ViewHolder
-            tNome = (TextView) view.findViewById(R.id.text);
-            img = (ImageView) view.findViewById(R.id.img);
-            tGenero = (TextView) view.findViewById(R.id.genero);
+            img_thumb = (ImageView) view.findViewById(R.id.img_thumb);
+            txt_nome = (TextView) view.findViewById(R.id.txt_event_name);
+            txt_data = (TextView) view.findViewById(R.id.txt_event_data);
+            txt_local = (TextView) view.findViewById(R.id.txt_event_place);
+            txt_preco = (TextView) view.findViewById(R.id.txt_event_price);
 
-            toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
+            toggleButton = (ToggleButton) view.findViewById(R.id.tglBtn_favorito);
             toggleButton.setChecked(false);
             toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
         }

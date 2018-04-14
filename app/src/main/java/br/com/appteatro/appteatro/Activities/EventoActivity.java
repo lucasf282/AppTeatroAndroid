@@ -79,9 +79,9 @@ public class EventoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Calendar beginTime = Calendar.getInstance();
-                    beginTime.set(2018, 5, 3, 19, 30);
+                    beginTime.set(2018, 3, 25, 19, 30);
                     Calendar endTime = Calendar.getInstance();
-                    endTime.set(2018, 5, 3, 22, 30);
+                    endTime.set(2018, 3, 25, 22, 30);
                     Intent intent = new Intent(Intent.ACTION_INSERT)
                             .setData(CalendarContract.Events.CONTENT_URI)
                             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())

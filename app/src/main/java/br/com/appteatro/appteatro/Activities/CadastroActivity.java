@@ -27,6 +27,7 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText mRepeatPassword;
 
     private Button cadastrarButton;
+    private Button CancelarButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,14 @@ public class CadastroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createAccount(mEmailField.getText().toString().trim(), mPasswordField.getText().toString().trim(), mRepeatPassword.getText().toString().trim());
+            }
+        });
+
+        CancelarButton = (Button) findViewById(R.id.btn_cancelar);
+        CancelarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CadastroActivity.this.finish();
             }
         });
 
