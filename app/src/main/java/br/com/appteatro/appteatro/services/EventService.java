@@ -13,9 +13,12 @@ import retrofit2.http.Path;
 
 public interface EventService {
 
-    @GET("eventos/listar/{uid}")
-    Call<List<Evento>> buscarEventos(@Path("uid") String uid);
+    @GET("eventos")
+    Call<List<Evento>> buscarEventos();
 
-    @GET("favorito/{codigo}")
-    Call<List<Evento>> buscarEventosFavoritoPorUsuario(@Path("codigo") String codigo);
+    @GET("eventos/listar/{uid}")
+    Call<List<Evento>> buscarEventosComUsuarioLogado(@Path("uid") String uid);
+
+    @GET("eventos/favoritos/{uid}")
+    Call<List<Evento>> buscarEventosFavoritoPorUsuario(@Path("uid") String uid);
 }

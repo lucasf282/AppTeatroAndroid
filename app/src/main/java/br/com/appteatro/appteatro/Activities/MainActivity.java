@@ -16,13 +16,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        goToMenuScreen();
 
-        if (user != null) {
-            goToMenuScreen();
-        } else {
-            goLoginScreen();
-        }
+//        if (user != null) {
+//            goToMenuScreen();
+//        } else {
+//            goLoginScreen();
+//        }
     }
 
     private void goToMenuScreen() {

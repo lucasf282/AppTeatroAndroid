@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
     private static  Context context;
     private EventoOnClickListener eventoOnClickListener;
     private FavoritoOnCheckedChangeListener favoritoOnCheckedChangeListener;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     public EventoAdapter(Context context, List<Evento> eventos, EventoOnClickListener eventoOnClickListener, FavoritoOnCheckedChangeListener favoritoOnCheckedChangeListener) {
         this.context = context;
@@ -72,12 +75,15 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             holder.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
-                        holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.ic_favorite_black_24dp));
-                        favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
-                    }
-                    else {
-                        holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+                    if(user != null) {
+                        if (isChecked) {
+                            holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
+                            favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
+                        } else {
+                            holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+                            favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
+                        }
+                    } else{
                         favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
                     }
                 }

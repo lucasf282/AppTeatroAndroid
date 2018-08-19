@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
 import br.com.appteatro.appteatro.domain.model.Favorito;
 import br.com.appteatro.appteatro.domain.model.Usuario;
+import br.com.appteatro.appteatro.fragement.dialog.AboutDialog;
 import br.com.appteatro.appteatro.utils.AndroidUtils;
 import br.com.appteatro.appteatro.utils.RetrofitConfig;
 import okhttp3.ResponseBody;
@@ -42,6 +44,7 @@ public class EventoFragment extends Fragment {
     private List<Evento> listaEventos;
     private SwipeRefreshLayout swipeLayout;
     private ProgressBar progressBar;
+    private TextView emptyView;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // Método para instanciar esse fragment pelo tipo.
@@ -84,6 +87,8 @@ public class EventoFragment extends Fragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_frag_eventos);
 
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
+
 
         return view;
     }
@@ -91,7 +96,16 @@ public class EventoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        taskEventos(false);
+        //taskEventos(false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            //do something  //Load or Refresh Data
+            taskEventos(true);
+        }
     }
 
     private void taskEventos(boolean pullToRefresh) {
@@ -120,14 +134,19 @@ public class EventoFragment extends Fragment {
         return new EventoAdapter.FavoritoOnCheckedChangeListener() {
             @Override
             public void onClickFavorito(View view, int idx, boolean isChecked) {
-                Favorito favarito = new Favorito();
-                favarito.setUid(user.getUid());
-                favarito.setEvento(listaEventos.get(idx));
-                if(isChecked){
-                    salvarFavorito(favarito);
+                if(user != null) {
+                    Favorito favarito = new Favorito();
+                    favarito.setUid(user.getUid());
+                    favarito.setEvento(listaEventos.get(idx));
+                    if (isChecked) {
+                        salvarFavorito(favarito);
+                    } else {
+                        // TODO Implementar serviço para remover Favorito
+                        deletarFavorito(favarito);
+                    }
                 } else{
-                    // TODO Implementar serviço para remover Favorito
-                    deletarFavorito(favarito);
+                    //IMPLEMNTAR MODAL
+                    AboutDialog.showAbout(getFragmentManager());
                 }
 
             }
@@ -182,7 +201,13 @@ public class EventoFragment extends Fragment {
     }
 
     private void obterListaEventos(){
-        Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventos(user.getUid());
+        Call<List<Evento>> call;
+        if(user != null){
+            call = new RetrofitConfig().getEventService().buscarEventosComUsuarioLogado(user.getUid());
+        } else{
+            call = new RetrofitConfig().getEventService().buscarEventos();
+        }
+
         call.enqueue(new Callback<List<Evento>>() {
             @Override
             public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
@@ -199,26 +224,43 @@ public class EventoFragment extends Fragment {
     }
 
     private void obterListaEventosFavorito(){
-        Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventosFavoritoPorUsuario(user.getUid());
-        call.enqueue(new Callback<List<Evento>>() {
-            @Override
-            public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
-                System.out.println(response);
-                listaEvents = response.body();
-                atualizaTabelaEventos(listaEvents);
-            }
+        if(user != null) {
+            Call<List<Evento>> call = new RetrofitConfig().getEventService().buscarEventosFavoritoPorUsuario(user.getUid());
+            call.enqueue(new Callback<List<Evento>>() {
+                @Override
+                public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
+                    System.out.println(response);
+                    listaEvents = response.body();
 
-            @Override
-            public void onFailure(Call<List<Evento>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    if(listaEvents.isEmpty()) {
+                        EventoFragment.this.progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    } else{
+                        atualizaTabelaEventos(listaEvents);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Evento>> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else{
+            EventoFragment.this.progressBar.setVisibility(View.GONE);
+            EventoFragment.this.swipeLayout.setVisibility(View.VISIBLE);
+
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void atualizaTabelaEventos(List<Evento> eventos) {
         EventoFragment.this.listaEventos = eventos;
         EventoFragment.this.progressBar.setVisibility(View.GONE);
         EventoFragment.this.swipeLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(new EventoAdapter(getContext(), EventoFragment.this.listaEventos, onClickEvento(), onCheckedChangeListener()));
     }
 

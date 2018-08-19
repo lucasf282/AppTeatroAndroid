@@ -20,10 +20,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import java.io.IOException;
+
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.TabsAdapter;
 import br.com.appteatro.appteatro.fragement.PerfilFragment;
@@ -34,6 +37,7 @@ public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = "MenuLateralActivity";
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +95,20 @@ public class MenuLateralActivity extends AppCompatActivity
         if (id == R.id.action_about) {
             AboutDialog.showAbout(getSupportFragmentManager());
             return true;
-        }if (id == R.id.action_push){
+        }
+        if (id == R.id.action_push) {
             HttpHelper httpHelper = new HttpHelper();
 
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            if (user.getDisplayName()!= null){
+
+            if (this.user.getDisplayName() != null) {
 
             }
 
             try {
-                httpHelper.doRequestNotification("https://fcm.googleapis.com/fcm/send", user.getDisplayName()!= null ? user.getDisplayName(): user.getEmail(),"Seja bem vindo ao aplicativo +Teatro", "UTF-8");
+                httpHelper.doRequestNotification("https://fcm.googleapis.com/fcm/send", this.user.getDisplayName() != null ? this.user.getDisplayName() : this.user.getEmail(), "Seja bem vindo ao aplicativo +Teatro", "UTF-8");
                 Toast.makeText(MenuLateralActivity.this, "Notificação solicitada. Aguarde alguns minutos.", Toast.LENGTH_LONG).show();
-            }catch (IOException e){
+            } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
                 Toast.makeText(MenuLateralActivity.this, "Não foi possível solicitar a notificação.", Toast.LENGTH_LONG).show();
             }
@@ -123,8 +128,12 @@ public class MenuLateralActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_person) {
-            Intent intent = new Intent(this, PerfilActivity.class);
-            startActivity(intent);
+            if(user != null) {
+                Intent intent = new Intent(this, PerfilActivity.class);
+                startActivity(intent);
+            } else{
+                this.goLoginScreen();
+            }
         } else if (id == R.id.nav_event) {
             //fragment = new ImportFragment();
             //fragment = new EventoFragment();
@@ -172,15 +181,17 @@ public class MenuLateralActivity extends AppCompatActivity
 
     // Atualiza os dados do header do Navigation View
     public void setNavViewValues(NavigationView navView) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        View headerView = navView.getHeaderView(0);
-        TextView tNome = (TextView) headerView.findViewById(R.id.textViewNome);
-        TextView tEmail = (TextView) headerView.findViewById(R.id.textViewEmail);
-        ImageView imgView = (ImageView) headerView.findViewById(R.id.imageView);
-        tNome.setText(user.getDisplayName());
-        tEmail.setText(user.getEmail());
-        Glide.with(this).load(user.getPhotoUrl()).into(imgView);
+        if (user != null) {
+            View headerView = navView.getHeaderView(0);
+            TextView tNome = (TextView) headerView.findViewById(R.id.textViewNome);
+            TextView tEmail = (TextView) headerView.findViewById(R.id.textViewEmail);
+            ImageView imgView = (ImageView) headerView.findViewById(R.id.imageView);
+            tNome.setText(this.user.getDisplayName());
+            tEmail.setText(this.user.getEmail());
+            Glide.with(this).load(this.user.getPhotoUrl()).into(imgView);
+        }
+
     }
 
     private void setupViewPagerTabs() {
@@ -193,35 +204,13 @@ public class MenuLateralActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         // Cria as tabs com o mesmo adapter utilizado pelo ViewPager
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                viewPager.setCurrentItem(tab.getPosition());
-//
-//                //get fragment for the selected tab
-//                Fragment f = mPagerAdapter.getItem(tab.getPosition());
-//
-//                //load the content of the fragment
-//                try
-//                {
-//                    Class c = f.getClass();
-//                    Method loadFragment = c.getMethod("loadFragment");
-//                    loadFragment.invoke(f);
-//                }
-//                catch (IllegalAccessException e){}
-//                catch (InvocationTargetException e){}
-//                catch (NoSuchMethodException e){}
-//            }
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//            }
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//            }
-//        });
 
+    }
 
-
+    private void goLoginScreen() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }

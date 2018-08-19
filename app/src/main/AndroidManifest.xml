@@ -39,7 +39,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Log in"
+            android:parentActivityName=".Activities.MenuLateralActivity" />
         <activity
             android:name=".Activities.CadastroActivity"
             android:theme="@style/AppTheme.NoActionBar" />
