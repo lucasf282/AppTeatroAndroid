@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -51,7 +55,20 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
     public void onBindViewHolder(final EventosViewHolder holder, final int position) {
         // Atualiza a view
         Evento e = eventos.get(position);
-        Glide.with(this.context).load(e.imagem).into(holder.img_thumb);
+        holder.progress.setVisibility(View.VISIBLE);
+        Glide.with(this.context).load(e.imagem).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                holder.progress.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                holder.progress.setVisibility(View.GONE);
+                return false;
+            }
+        }).into(holder.img_thumb);
         holder.txt_nome.setText(e.nome);
         holder.txt_data.setText("25/04/2018");
         holder.txt_local.setText(e.getLocal().getNome());
@@ -107,6 +124,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         public TextView txt_preco;
         public ImageView img_thumb;
         public ToggleButton toggleButton;
+        public ProgressBar progress;
 
         public EventosViewHolder(View view) {
             super(view);
@@ -120,6 +138,8 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             toggleButton = (ToggleButton) view.findViewById(R.id.tglBtn_favorito);
             toggleButton.setChecked(false);
             toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+
+            progress = (ProgressBar) view.findViewById(R.id.progressImg);
         }
     }
 }

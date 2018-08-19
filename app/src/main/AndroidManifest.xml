@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -66,7 +65,7 @@
         <activity
             android:name=".Activities.PerfilActivity"
             android:label="@string/title_activity_perfil"
-            android:parentActivityName=".Activities.MenuLateralActivity"></activity>
+            android:parentActivityName=".Activities.MenuLateralActivity" />
         <activity
             android:name=".Activities.EditarPerfilActivity"
             android:label="Editar Perfil"
@@ -74,14 +73,18 @@
 
         <service android:name=".services.FCMMessageService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".services.FCMInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".Activities.TeatrosActivity"
+            android:label="Teatros"
+            android:parentActivityName=".Activities.MenuLateralActivity"></activity>
     </application>
 
 </manifest>

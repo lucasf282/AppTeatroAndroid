@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_event_black_24dp"
             android:title="Eventos" />
         <item
+            android:id="@+id/nav_local"
+            android:icon="@drawable/ic_theaters_black_24dp"
+            android:title="Teatros" />
+        <item
             android:id="@+id/nav_chat"
             android:icon="@drawable/ic_chat_black_24dp"
             android:title="Chat" />

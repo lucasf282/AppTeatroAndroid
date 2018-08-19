@@ -2,6 +2,7 @@ package br.com.appteatro.appteatro.utils;
 
 import br.com.appteatro.appteatro.services.EventService;
 import br.com.appteatro.appteatro.services.FavoriteService;
+import br.com.appteatro.appteatro.services.LocalService;
 import br.com.appteatro.appteatro.services.UserService;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -16,7 +17,8 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("https://teatro-api.herokuapp.com/")
+                //.baseUrl("https://teatro-api.herokuapp.com/")
+                .baseUrl("http://192.168.0.10:8080/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
@@ -31,6 +33,10 @@ public class RetrofitConfig {
 
     public FavoriteService getFavoriteService() {
         return this.retrofit.create(FavoriteService.class);
+    }
+
+    public LocalService getLocalService() {
+        return this.retrofit.create(LocalService.class);
     }
 
 }
