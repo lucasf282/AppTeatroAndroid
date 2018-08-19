@@ -2,6 +2,7 @@ package br.com.appteatro.appteatro.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,7 +18,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        goToMenuScreen();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goToMenuScreen();
+            }
+        }, 3000);
+
 
 //        if (user != null) {
 //            goToMenuScreen();
@@ -27,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToMenuScreen() {
-        Intent intent = new Intent(this, MenuLateralActivity.class);
+        Intent intent = new Intent(this, WelcomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
