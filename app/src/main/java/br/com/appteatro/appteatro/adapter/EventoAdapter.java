@@ -54,7 +54,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
     @Override
     public void onBindViewHolder(final EventosViewHolder holder, final int position) {
         // Atualiza a view
-        Evento e = eventos.get(position);
+        final Evento e = eventos.get(position);
         holder.progress.setVisibility(View.VISIBLE);
         Glide.with(this.context).load(e.imagem).listener(new RequestListener<String, GlideDrawable>() {
             @Override
@@ -73,9 +73,17 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         holder.txt_data.setText("25/04/2018");
         holder.txt_local.setText(e.getLocal().getNome());
         holder.txt_preco.setText(e.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
-        if(e.favoritado != null && e.favoritado) {
-            holder.toggleButton.setChecked(e.favoritado);
-            holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
+
+        if(user != null) {
+            if (e.favoritado.equals(Boolean.TRUE)) {
+                e.setFavoritado(true);
+                holder.toggleButton.setChecked(e.favoritado);
+                holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
+            } else {
+                e.setFavoritado(false);
+                holder.toggleButton.setChecked(e.favoritado);
+                holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
+            }
         }
 
         if (eventoOnClickListener != null) {
@@ -94,9 +102,13 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(user != null) {
                         if (isChecked) {
+                            e.setFavoritado(Boolean.TRUE);
+                            holder.toggleButton.setChecked(e.favoritado);
                             holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black_24dp));
                             favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
                         } else {
+                            e.setFavoritado(Boolean.FALSE);
+                            holder.toggleButton.setChecked(e.favoritado);
                             holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
                             favoritoOnCheckedChangeListener.onClickFavorito(holder.itemView, position, isChecked);
                         }
@@ -136,7 +148,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             txt_preco = (TextView) view.findViewById(R.id.txt_event_price);
 
             toggleButton = (ToggleButton) view.findViewById(R.id.tglBtn_favorito);
-            toggleButton.setChecked(false);
+            toggleButton.setChecked(Boolean.FALSE);
             toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border_black_24dp));
 
             progress = (ProgressBar) view.findViewById(R.id.progressImg);

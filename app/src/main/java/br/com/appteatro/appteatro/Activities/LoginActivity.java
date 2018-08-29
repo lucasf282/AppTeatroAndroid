@@ -264,7 +264,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void sumirComponentesTelaAoCarregar() {
         progressBar.setVisibility(View.VISIBLE);
-        img_logo.setVisibility(View.GONE);
+        //img_logo.setVisibility(View.GONE);
         googleButton.setVisibility(View.GONE);
         facebookButton.setVisibility(View.GONE);
         entrarButton.setVisibility(View.GONE);
@@ -276,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void aparecerComponentesTela() {
         progressBar.setVisibility(View.GONE);
-        img_logo.setVisibility(View.VISIBLE);
+        //img_logo.setVisibility(View.VISIBLE);
         googleButton.setVisibility(View.VISIBLE);
         facebookButton.setVisibility(View.VISIBLE);
         entrarButton.setVisibility(View.VISIBLE);

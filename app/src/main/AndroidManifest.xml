@@ -42,7 +42,8 @@
             android:parentActivityName=".Activities.MenuLateralActivity" />
         <activity
             android:name=".Activities.CadastroActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Registrar"
+            android:parentActivityName=".Activities.LoginActivity"/>
         <activity
             android:name=".Activities.MenuLateralActivity"
             android:label="@string/title_activity_menu_lateral"

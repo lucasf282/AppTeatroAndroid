@@ -17,8 +17,8 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                //.baseUrl("https://teatro-api.herokuapp.com/")
-                .baseUrl("http://192.168.0.10:8080/")
+                .baseUrl("https://teatro-api.herokuapp.com/")
+                //.baseUrl("http://192.168.0.10:8080/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

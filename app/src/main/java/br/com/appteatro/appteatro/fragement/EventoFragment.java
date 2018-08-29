@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.appteatro.appteatro.Activities.EventoActivity;
+import br.com.appteatro.appteatro.Activities.LoginActivity;
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
@@ -146,7 +147,9 @@ public class EventoFragment extends Fragment {
                     }
                 } else{
                     //IMPLEMNTAR MODAL
-                    AboutDialog.showAbout(getFragmentManager());
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
 
             }
