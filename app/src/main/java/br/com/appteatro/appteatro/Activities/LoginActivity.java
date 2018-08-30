@@ -1,5 +1,6 @@
 package br.com.appteatro.appteatro.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
-    private TheaterLoadView progressBar;
+    private ProgressDialog progressDialog;
 
     private EditText mEmailField;
     private EditText mPasswordField;
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         };
 
-        progressBar = (TheaterLoadView) findViewById(R.id.progressBar);
+        progressDialog = new ProgressDialog(LoginActivity.this);
         img_logo = (ImageView) findViewById(R.id.img_logo);
 
         btn_sigin = (Button) findViewById(R.id.btn_sigin);
@@ -131,15 +131,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
-        this.sumirComponentesTelaAoCarregar();
+        this.carregarProgressDialog();
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressDialog.dismiss();
                 if (!task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.login_erro_firebase, Toast.LENGTH_LONG).show();
-                    aparecerComponentesTela();
                 }
             }
         });
@@ -189,24 +189,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             firebaseAuthWithGoogle(result.getSignInAccount());
         } else {
             Toast.makeText(this, R.string.not_log_in, Toast.LENGTH_SHORT).show();
-            aparecerComponentesTela();
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
 
-        this.sumirComponentesTelaAoCarregar();
+        this.carregarProgressDialog();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
 
                 if (!task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.not_firebase_auth, Toast.LENGTH_SHORT).show();
-                    aparecerComponentesTela();
                 }
             }
         });
@@ -226,19 +224,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         if (this.isEmailAndPasswordValidos(email, password)) {
 
-            this.sumirComponentesTelaAoCarregar();
+            this.carregarProgressDialog();
 
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
                                 goMainScreen();
                             } else {
                                 // If sign in fails, display a message to the user.
-                                aparecerComponentesTela();
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -262,27 +260,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return true;
     }
 
-    private void sumirComponentesTelaAoCarregar() {
-        progressBar.setVisibility(View.VISIBLE);
-        //img_logo.setVisibility(View.GONE);
-        googleButton.setVisibility(View.GONE);
-        facebookButton.setVisibility(View.GONE);
-        entrarButton.setVisibility(View.GONE);
-        btn_sigin.setVisibility(View.GONE);
-        mEmailField.setVisibility(View.GONE);
-        mPasswordField.setVisibility(View.GONE);
-
-    }
-
-    private void aparecerComponentesTela() {
-        progressBar.setVisibility(View.GONE);
-        //img_logo.setVisibility(View.VISIBLE);
-        googleButton.setVisibility(View.VISIBLE);
-        facebookButton.setVisibility(View.VISIBLE);
-        entrarButton.setVisibility(View.VISIBLE);
-        btn_sigin.setVisibility(View.VISIBLE);
-        mEmailField.setVisibility(View.VISIBLE);
-        mPasswordField.setVisibility(View.VISIBLE);
+    private void carregarProgressDialog() {
+        progressDialog.setMessage("Autenticando...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        progressDialog.setIndeterminate(true);
     }
 
     private void goMainScreen() {
@@ -290,7 +272,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
 
     @Override
     protected void onStart() {

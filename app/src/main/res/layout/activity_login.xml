@@ -116,12 +116,4 @@
         android:elevation="4dp"
         android:src="@drawable/login" />
 
-    <br.com.appteatro.appteatro.CustomView.TheaterLoadView
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:indeterminate="true"
-        android:visibility="gone"/>
-
 </RelativeLayout>
