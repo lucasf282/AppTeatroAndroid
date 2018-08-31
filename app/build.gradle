@@ -73,6 +73,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
     compile 'com.squareup.retrofit2:converter-jackson:2.4.0'
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
 
 

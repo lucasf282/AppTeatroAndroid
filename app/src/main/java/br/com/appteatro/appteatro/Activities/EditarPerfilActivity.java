@@ -9,14 +9,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -48,7 +47,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     private EditText nomeTextView;
-    private Button btnChoose, btnUpload;
+    private FloatingActionButton btnChoose, btnUpload;
     private ImageView photoImageView;
     private Uri filePath;
 
@@ -58,7 +57,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editar_perfil);
 
         nomeTextView = findViewById(R.id.ed_txt_nome);
-        btnChoose = (Button) findViewById(R.id.btnChoose);
+        btnChoose = (FloatingActionButton) findViewById(R.id.btnChoose);
         photoImageView = (ImageView) findViewById(R.id.photoImageView);
 
         storage = FirebaseStorage.getInstance();
