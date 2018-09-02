@@ -93,27 +93,27 @@ public class MenuLateralActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-            AboutDialog.showAbout(getSupportFragmentManager());
-            return true;
+//            AboutDialog.showAbout(getSupportFragmentManager());
+//            return true;
+            Intent intent = new Intent(this, FiltroActivity.class);
+            startActivity(intent);
         }
-        if (id == R.id.action_push) {
-            HttpHelper httpHelper = new HttpHelper();
-
-
-
-            if (this.user.getDisplayName() != null) {
-
-            }
-
-            try {
-                httpHelper.doRequestNotification("https://fcm.googleapis.com/fcm/send", this.user.getDisplayName() != null ? this.user.getDisplayName() : this.user.getEmail(), "Seja bem vindo ao aplicativo +Teatro", "UTF-8");
-                Toast.makeText(MenuLateralActivity.this, "Notificação solicitada. Aguarde alguns minutos.", Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(MenuLateralActivity.this, "Não foi possível solicitar a notificação.", Toast.LENGTH_LONG).show();
-            }
-            return true;
-        }
+//        if (id == R.id.action_push) {
+//            HttpHelper httpHelper = new HttpHelper();
+//
+//            if (this.user.getDisplayName() != null) {
+//
+//            }
+//
+//            try {
+//                httpHelper.doRequestNotification("https://fcm.googleapis.com/fcm/send", this.user.getDisplayName() != null ? this.user.getDisplayName() : this.user.getEmail(), "Seja bem vindo ao aplicativo +Teatro", "UTF-8");
+//                Toast.makeText(MenuLateralActivity.this, "Notificação solicitada. Aguarde alguns minutos.", Toast.LENGTH_LONG).show();
+//            } catch (IOException e) {
+//                Log.e(TAG, e.getMessage());
+//                Toast.makeText(MenuLateralActivity.this, "Não foi possível solicitar a notificação.", Toast.LENGTH_LONG).show();
+//            }
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -135,8 +135,7 @@ public class MenuLateralActivity extends AppCompatActivity
                 this.goLoginScreen();
             }
         } else if (id == R.id.nav_event) {
-            //fragment = new ImportFragment();
-            //fragment = new EventoFragment();
+            // Tela Eventos
         } else if (id == R.id.nav_local) {
             Intent intent = new Intent(this, TeatrosActivity.class);
             startActivity(intent);
@@ -144,11 +143,9 @@ public class MenuLateralActivity extends AppCompatActivity
             Intent intent = new Intent(this, RoomActivity.class);
             startActivity(intent);
         }
-//        else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        else if (id == R.id.nav_help) {
+            AboutDialog.showAbout(getSupportFragmentManager());
+        }
 
         this.acionarFragment(fragment);
 

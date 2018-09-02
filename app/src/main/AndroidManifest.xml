@@ -43,7 +43,7 @@
         <activity
             android:name=".Activities.CadastroActivity"
             android:label="Registrar"
-            android:parentActivityName=".Activities.LoginActivity"/>
+            android:parentActivityName=".Activities.LoginActivity" />
         <activity
             android:name=".Activities.MenuLateralActivity"
             android:label="@string/title_activity_menu_lateral"
@@ -83,8 +83,13 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activities.TeatrosActivity"
+        <activity
+            android:name=".Activities.TeatrosActivity"
             android:label="Teatros"
+            android:parentActivityName=".Activities.MenuLateralActivity" />
+        <activity
+            android:name=".Activities.FiltroActivity"
+            android:label="Filtro"
             android:parentActivityName=".Activities.MenuLateralActivity"></activity>
     </application>
 
