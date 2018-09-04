@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.appteatro.appteatro"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,10 @@ android {
         debug {
             signingConfig signingConfigs.config
         }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -72,6 +76,9 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
     compile 'com.squareup.retrofit2:converter-jackson:2.4.0'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-modules-java8
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-modules-java8', version: '2.9.6', ext: 'pom'
+
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:gridlayout-v7:27.0.2'

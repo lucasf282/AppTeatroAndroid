@@ -15,17 +15,19 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.domain.model.Evento;
 import br.com.appteatro.appteatro.domain.model.EventoFilter;
 import br.com.appteatro.appteatro.domain.model.Genero;
+import br.com.appteatro.appteatro.domain.model.Local;
 import br.com.appteatro.appteatro.utils.RetrofitConfig;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FiltroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class FiltroActivity extends AppCompatActivity  {
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -40,18 +42,16 @@ public class FiltroActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro);
 
+        buscarTeatros();
+
         // Views
         mNomeEventoField = findViewById(R.id.ed_nome_evento);
 
         spinnerTeatro = (Spinner) findViewById(R.id.spinner_teatro);
-        // Spinner click listener
-        spinnerTeatro.setOnItemSelectedListener(this);
-        montarDropTeatro();
 
         spinnerGenero = (Spinner) findViewById(R.id.spinner_genero);
-        // Spinner click listener
-        spinnerGenero.setOnItemSelectedListener(this);
         montarDropgGenero();
+
 
         entrarButton = (Button) findViewById(R.id.buttonFiltrar);
         entrarButton.setOnClickListener(new View.OnClickListener() {
@@ -63,15 +63,12 @@ public class FiltroActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    private void montarDropTeatro(){
+    private void montarDropTeatro(List<Local> body) {
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add("Item 1");
-        categories.add("Item 2");
-        categories.add("Item 3");
-        categories.add("Item 4");
-        categories.add("Item 5");
-        categories.add("Item 6");
+        categories.add("TODOS");
+        categories.addAll(body.stream().map(Local::getNome).collect(Collectors.toList()));
+
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
 
@@ -82,7 +79,7 @@ public class FiltroActivity extends AppCompatActivity implements AdapterView.OnI
         spinnerTeatro.setAdapter(dataAdapter);
     }
 
-    private void montarDropgGenero(){
+    private void montarDropgGenero() {
         // Creating adapter for spinner
         ArrayAdapter<Genero> dataAdapter = new ArrayAdapter<Genero>(this, android.R.layout.simple_spinner_item, Genero.values());
 
@@ -93,16 +90,34 @@ public class FiltroActivity extends AppCompatActivity implements AdapterView.OnI
         spinnerGenero.setAdapter(dataAdapter);
     }
 
-    private void buscarEventosFiltrados(){
+    private void buscarTeatros() {
+        Call<List<Local>> call;
+        call = new RetrofitConfig().getLocalService().buscarLocais();
+
+        call.enqueue(new Callback<List<Local>>() {
+            @Override
+            public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                montarDropTeatro(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Local>> call, Throwable t) {
+                System.out.println(t.getMessage());
+                //Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void buscarEventosFiltrados() {
         EventoFilter efiltro = new EventoFilter();
         efiltro.setNome(mNomeEventoField.getText().toString().trim());
         efiltro.setGenero((Genero) spinnerGenero.getSelectedItem());
         efiltro.setNomeLocal(spinnerTeatro.getSelectedItem().toString());
 
         Call<List<Evento>> call;
-        if(user != null){
+        if (user != null) {
             call = new RetrofitConfig().getEventService().buscarEventosFiltrados(user.getUid(), efiltro.build());
-        } else{
+        } else {
             call = new RetrofitConfig().getEventService().buscarEventos();
         }
 
@@ -118,28 +133,5 @@ public class FiltroActivity extends AppCompatActivity implements AdapterView.OnI
                 //Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        // On selecting a spinner item
-        String item = adapterView.getItemAtPosition(i).toString();
-        if(adapterView.getId() == R.id.spinner_teatro){
-            // Showing selected spinner item
-            Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-        } else{
-            // Showing selected spinner item
-            Toast.makeText(adapterView.getContext(), "Selected Grupo: " + item, Toast.LENGTH_LONG).show();
-        }
-
-
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }

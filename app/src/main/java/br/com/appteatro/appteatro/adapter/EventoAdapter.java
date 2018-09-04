@@ -70,7 +70,8 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             }
         }).into(holder.img_thumb);
         holder.txt_nome.setText(e.nome);
-        holder.txt_data.setText("25/04/2018");
+        //holder.txt_data.setText(converteData(e.listaAgenda.get(0).getData()));
+        holder.txt_data.setText("05/02/2018");
         holder.txt_local.setText(e.getLocal().getNome());
         holder.txt_preco.setText(e.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
 
@@ -118,6 +119,14 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
                 }
             });
         }
+    }
+
+    private String converteData(List<String> data){
+        String ano = data.get(0);
+        String mes = data.get(1);
+        String dia = data.get(2);
+
+        return dia+"/"+mes+"/"+ano;
     }
 
     public interface EventoOnClickListener {
