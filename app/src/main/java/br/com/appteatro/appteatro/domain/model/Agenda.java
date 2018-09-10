@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"data"})
+
 public class Agenda implements Serializable {
 
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date data;
 
     private String horario;

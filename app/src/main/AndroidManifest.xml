@@ -90,7 +90,9 @@
         <activity
             android:name=".Activities.FiltroActivity"
             android:label="Filtro"
-            android:parentActivityName=".Activities.MenuLateralActivity"></activity>
+            android:parentActivityName=".Activities.MenuLateralActivity" />
+        <activity android:name=".Activities.InformacaoActivity"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>

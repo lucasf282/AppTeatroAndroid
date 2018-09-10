@@ -19,6 +19,10 @@ import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import br.com.appteatro.appteatro.R;
@@ -70,8 +74,8 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
             }
         }).into(holder.img_thumb);
         holder.txt_nome.setText(e.nome);
-        //holder.txt_data.setText(converteData(e.listaAgenda.get(0).getData()));
-        holder.txt_data.setText("05/02/2018");
+        System.out.println(e.listaAgenda.get(0).getData());
+        holder.txt_data.setText(converteData(e.listaAgenda.get(0).getData()));
         holder.txt_local.setText(e.getLocal().getNome());
         holder.txt_preco.setText(e.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
 
@@ -121,12 +125,10 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
         }
     }
 
-    private String converteData(List<String> data){
-        String ano = data.get(0);
-        String mes = data.get(1);
-        String dia = data.get(2);
+    private String converteData(Date data){
+        SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
 
-        return dia+"/"+mes+"/"+ano;
+        return dt.format(data);
     }
 
     public interface EventoOnClickListener {

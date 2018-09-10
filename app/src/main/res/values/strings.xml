@@ -69,5 +69,7 @@ Versao %s<br><br>
     <string name="title_activity_perfil">Meu Perfil</string>
 
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
 
 </resources>
