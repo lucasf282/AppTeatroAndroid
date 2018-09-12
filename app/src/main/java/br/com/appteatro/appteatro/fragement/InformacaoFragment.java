@@ -1,20 +1,12 @@
 package br.com.appteatro.appteatro.fragement;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.domain.model.Evento;
@@ -27,6 +19,8 @@ public class InformacaoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        evento = (Evento) getArguments().get("evento");
+
         return inflater.inflate(R.layout.fragment_informacao, null);
     }
 
@@ -35,5 +29,21 @@ public class InformacaoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setTextString(R.id.tSinopse, evento.getDescricao());
+        setTextString(R.id.tElenco, evento.getInformacao().getElenco());
+        setTextString(R.id.tFichaTecnica, evento.getInformacao().getFicha());
+        setTextString(R.id.tGenero, evento.getGenero());
+        setTextString(R.id.tDuracao, evento.getInformacao().getDuracao());
+
+    }
+
+    protected void setTextString(int resId, String text) {
+        View view = getView();
+        if (view != null) {
+            TextView t = (TextView) view.findViewById(resId);
+            if (t != null) {
+                t.setText(text);
+            }
+        }
     }
 }

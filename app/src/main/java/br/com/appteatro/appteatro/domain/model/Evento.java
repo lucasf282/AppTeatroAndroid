@@ -13,6 +13,7 @@ public class Evento implements Serializable{
     public List<Agenda> listaAgenda;
     public Local local;
     public Boolean favoritado;
+    public Informacao informacao;
 
     public Long getId() {
         return id;
@@ -68,6 +69,14 @@ public class Evento implements Serializable{
 
     public void setFavoritado(Boolean favoritado) {
         this.favoritado = favoritado;
+    }
+
+    public Informacao getInformacao() {
+        return informacao;
+    }
+
+    public void setInformacao(Informacao informacao) {
+        this.informacao = informacao;
     }
 }
 
