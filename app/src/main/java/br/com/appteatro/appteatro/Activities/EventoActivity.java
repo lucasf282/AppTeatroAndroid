@@ -193,7 +193,7 @@ public class EventoActivity extends AppCompatActivity {
     }
 
     private String converteData(Date data) {
-        SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 
         return dt.format(data);
     }

@@ -1,5 +1,6 @@
 package br.com.appteatro.appteatro.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -57,7 +58,16 @@ public class FiltroActivity extends AppCompatActivity  {
         entrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buscarEventosFiltrados();
+                // buscarEventosFiltrados();
+                EventoFilter efiltro = new EventoFilter();
+                efiltro.setNome(mNomeEventoField.getText().toString().trim());
+                efiltro.setGenero((Genero) spinnerGenero.getSelectedItem());
+                efiltro.setNomeLocal(spinnerTeatro.getSelectedItem().toString());
+
+                Intent intent = new Intent(FiltroActivity.this, EventosActivity.class);
+                intent.putExtra("filtro", efiltro);
+                //intent.putExtra("tipo", R.string.classicos);
+                startActivity(intent);
             }
         });
 
@@ -66,7 +76,7 @@ public class FiltroActivity extends AppCompatActivity  {
     private void montarDropTeatro(List<Local> body) {
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add("TODOS");
+        categories.add("Todos");
         categories.addAll(body.stream().map(Local::getNome).collect(Collectors.toList()));
 
         // Creating adapter for spinner
@@ -118,7 +128,7 @@ public class FiltroActivity extends AppCompatActivity  {
         if (user != null) {
             call = new RetrofitConfig().getEventService().buscarEventosFiltrados(user.getUid(), efiltro.build());
         } else {
-            call = new RetrofitConfig().getEventService().buscarEventos();
+            call = new RetrofitConfig().getEventService().buscarEventosFiltrados("x", efiltro.build());
         }
 
         call.enqueue(new Callback<List<Evento>>() {

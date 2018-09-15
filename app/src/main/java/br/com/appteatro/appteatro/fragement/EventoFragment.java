@@ -27,7 +27,9 @@ import br.com.appteatro.appteatro.Activities.LoginActivity;
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.adapter.EventoAdapter;
 import br.com.appteatro.appteatro.domain.model.Evento;
+import br.com.appteatro.appteatro.domain.model.EventoFilter;
 import br.com.appteatro.appteatro.domain.model.Favorito;
+import br.com.appteatro.appteatro.domain.model.Genero;
 import br.com.appteatro.appteatro.domain.model.Usuario;
 import br.com.appteatro.appteatro.fragement.dialog.AboutDialog;
 import br.com.appteatro.appteatro.utils.AndroidUtils;
@@ -48,6 +50,8 @@ public class EventoFragment extends Fragment {
     private TextView emptyView;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    private EventoFilter eventoFilter;
+
     // Método para instanciar esse fragment pelo tipo.
     public static EventoFragment newInstance(int tipo) {
         Bundle args = new Bundle();
@@ -63,6 +67,11 @@ public class EventoFragment extends Fragment {
         if (getArguments() != null) {
             // Lê o tipo dos argumentos.
             this.tipo = getArguments().getInt("tipo");
+            eventoFilter = (EventoFilter) getArguments().get("filtro");
+        }
+
+        if(eventoFilter != null){
+            buscarEventosFiltrados(eventoFilter);
         }
 
     }
@@ -103,6 +112,7 @@ public class EventoFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        System.out.println("foi");
         if (isVisibleToUser){
             //do something  //Load or Refresh Data
             taskEventos(true);
@@ -265,6 +275,36 @@ public class EventoFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(new EventoAdapter(getContext(), EventoFragment.this.listaEventos, onClickEvento(), onCheckedChangeListener()));
+    }
+
+    private void buscarEventosFiltrados(EventoFilter eventoFilter) {
+        Call<List<Evento>> call;
+        if (user != null) {
+            call = new RetrofitConfig().getEventService().buscarEventosFiltrados(user.getUid(), eventoFilter.build());
+        } else {
+            call = new RetrofitConfig().getEventService().buscarEventosFiltrados("x", eventoFilter.build());
+        }
+
+        call.enqueue(new Callback<List<Evento>>() {
+            @Override
+            public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
+                listaEvents = response.body();
+
+                if(listaEvents.isEmpty()) {
+                    EventoFragment.this.progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else{
+                    atualizaTabelaEventos(listaEvents);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Evento>> call, Throwable t) {
+                System.out.println(t.getMessage());
+                //Toast.makeText(getActivity(), "Erro ao carregar os eventos.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

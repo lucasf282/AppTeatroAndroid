@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import br.com.appteatro.appteatro.R;
 import br.com.appteatro.appteatro.domain.model.Evento;
+import br.com.appteatro.appteatro.domain.model.Genero;
 
 
 public class InformacaoFragment extends Fragment {
@@ -29,10 +30,12 @@ public class InformacaoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         setTextString(R.id.tSinopse, evento.getDescricao());
         setTextString(R.id.tElenco, evento.getInformacao().getElenco());
         setTextString(R.id.tFichaTecnica, evento.getInformacao().getFicha());
-        setTextString(R.id.tGenero, evento.getGenero());
+        setTextString(R.id.tGenero, Genero.valueOf(evento.getGenero()).getDescricao());
         setTextString(R.id.tDuracao, evento.getInformacao().getDuracao());
 
     }

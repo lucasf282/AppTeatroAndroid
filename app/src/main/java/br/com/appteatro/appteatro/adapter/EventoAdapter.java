@@ -126,7 +126,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventosVie
     }
 
     private String converteData(Date data){
-        SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 
         return dt.format(data);
     }

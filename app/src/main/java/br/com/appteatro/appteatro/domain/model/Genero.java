@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public enum Genero implements Serializable {
 
+    TODOS("Todos"),
     COMEDIA("Comédia"),
     DRAMA("Drama"),
     INFANTIL("Infantil"),
