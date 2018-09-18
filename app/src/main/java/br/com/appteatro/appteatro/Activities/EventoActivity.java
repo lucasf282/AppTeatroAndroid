@@ -104,40 +104,13 @@ public class EventoActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             this.evento = (Evento) savedInstanceState.getSerializable("evento");
+            montarEventoTela();
             Log.d(TAG, "Event Read" + this.evento.toString());
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 evento = (Evento) bundle.get("evento");
-
-                // Faz o download da foto e mostra o ProgressBar
-                progressBar.setVisibility(View.VISIBLE);
-                Glide.with(this).load(evento.imagem).listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        progressBar.setVisibility(View.GONE);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        progressBar.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(img_capa);
-                txt_data.setText(converteData(evento.listaAgenda.get(0).getData()));
-                txt_hora.setText(evento.listaAgenda.get(0).getHorario());
-                txt_local.setText(evento.getLocal().getNome());
-                txt_preco.setText(evento.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
-                txt_desc.setText(evento.getDescricao());
-                if (user != null) {
-                    if (evento.favoritado.equals(Boolean.TRUE)) {
-                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_favorite_black_24dp));
-                    } else {
-                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_favorite_border_black_24dp));
-                    }
-                }
-                setTitle(evento.getNome());
+                montarEventoTela();
             }
         }
         ConstraintLayout linhaLocal = (ConstraintLayout) findViewById(R.id.cl_local);
@@ -190,6 +163,37 @@ public class EventoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void montarEventoTela(){
+        // Faz o download da foto e mostra o ProgressBar
+        progressBar.setVisibility(View.VISIBLE);
+        Glide.with(this).load(evento.imagem).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                progressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                progressBar.setVisibility(View.GONE);
+                return false;
+            }
+        }).into(img_capa);
+        txt_data.setText(converteData(evento.listaAgenda.get(0).getData()));
+        txt_hora.setText(evento.listaAgenda.get(0).getHorario());
+        txt_local.setText(evento.getLocal().getNome());
+        txt_preco.setText(evento.listaAgenda.get(0).getListaIngresso().get(0).getPreco());
+        txt_desc.setText(evento.getDescricao());
+        if (user != null) {
+            if (evento.favoritado.equals(Boolean.TRUE)) {
+                toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_favorite_black_24dp));
+            } else {
+                toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_favorite_border_black_24dp));
+            }
+        }
+        setTitle(evento.getNome());
     }
 
     private String converteData(Date data) {
