@@ -140,8 +140,12 @@ public class MenuLateralActivity extends AppCompatActivity
             Intent intent = new Intent(this, TeatrosActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_chat) {
-            Intent intent = new Intent(this, RoomActivity.class);
-            startActivity(intent);
+            if(user != null) {
+                Intent intent = new Intent(this, RoomActivity.class);
+                startActivity(intent);
+            } else{
+                this.goLoginScreen();
+            }
         }
         else if (id == R.id.nav_help) {
             AboutDialog.showAbout(getSupportFragmentManager());

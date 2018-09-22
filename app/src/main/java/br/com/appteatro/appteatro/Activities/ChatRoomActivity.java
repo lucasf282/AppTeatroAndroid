@@ -8,11 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,36 +28,30 @@ import java.util.Iterator;
 import java.util.Map;
 
 import br.com.appteatro.appteatro.R;
+import br.com.appteatro.appteatro.domain.model.ChatMessage;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    private Button btn_send_msg;
-    private EditText input_msg;
-    private TextView chat_conversation;
+    private FloatingActionButton fab;
+    private ListView listOfMessages;
+    private EditText input;
 
-    private String user_name, room_name;
     private DatabaseReference root;
-    private String temp_key;
-    private String chat_msg, chat_user_name;
+    private FirebaseListAdapter<ChatMessage> adapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        btn_send_msg = (Button) findViewById(R.id.btn_send);
-        input_msg = (EditText) findViewById(R.id.msg_input);
-        chat_conversation = (TextView) findViewById(R.id.textView);
-
-        user_name = getIntent().getExtras().get("user_name").toString();
-        room_name = getIntent().getExtras().get("room_name").toString();
+        String room_name = getIntent().getExtras().get("room_name").toString();
         setTitle(" Sala - " + room_name);
-
         root = FirebaseDatabase.getInstance().getReference().child(room_name);
 
-        btn_send_msg.setEnabled(Boolean.FALSE);
 
-        input_msg.addTextChangedListener(new TextWatcher() {
+        input = (EditText) findViewById(R.id.input);
+        input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -70,74 +68,57 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
 
-        btn_send_msg.setOnClickListener(new View.OnClickListener() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setEnabled(Boolean.FALSE);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Map<String, Object> map = new HashMap<String, Object>();
-                temp_key = root.push().getKey();
-                root.updateChildren(map);
+                // Read the input field and push a new instance
+                // of ChatMessage to the Firebase database
+                root.push().setValue(new ChatMessage(input.getText().toString(),
+                        FirebaseAuth.getInstance()
+                                .getCurrentUser()
+                                .getDisplayName())
+                );
 
-                DatabaseReference message_root = root.child(temp_key);
-                Map<String, Object> map2 = new HashMap<String, Object>();
-                map2.put("name", user_name);
-                map2.put("msg", input_msg.getText().toString());
-
-                message_root.updateChildren(map2);
-
-                input_msg.getText().clear();
+                // Clear the input
+                input.setText("");
             }
         });
 
-        root.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                append_chat_conversation(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                append_chat_conversation(dataSnapshot);
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        displayChatMessages();
 
     }
 
-    private void append_chat_conversation(DataSnapshot dataSnapshot) {
+    private void displayChatMessages() {
+        listOfMessages = (ListView) findViewById(R.id.list_of_messages);
 
-        Iterator i = dataSnapshot.getChildren().iterator();
+        adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
+                R.layout.message, root) {
+            @Override
+            protected void populateView(View v, ChatMessage model, int position) {
+                // Get references to the views of message.xml
+                TextView messageText = (TextView) v.findViewById(R.id.message_text);
+                TextView messageUser = (TextView) v.findViewById(R.id.message_user);
+                TextView messageTime = (TextView) v.findViewById(R.id.message_time);
 
-        while (i.hasNext()) {
+                // Set their text
+                messageText.setText(model.getMessageText());
+                messageUser.setText(model.getMessageUser());
 
-            chat_msg = (String) ((DataSnapshot) i.next()).getValue();
-            chat_user_name = (String) ((DataSnapshot) i.next()).getValue();
+                // Format the date before showing it
+                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        model.getMessageTime()));
+            }
+        };
 
-            chat_conversation.append(chat_user_name + " : " + chat_msg + " \n");
-        }
-
-
+        listOfMessages.setAdapter(adapter);
     }
 
     private void enableSubmitIfReady(){
-        boolean isReady = input_msg.getText().toString().length()>0;
-        btn_send_msg.setEnabled(isReady);
+        boolean isReady = input.getText().toString().length()>0;
+        fab.setEnabled(isReady);
     }
+
 }

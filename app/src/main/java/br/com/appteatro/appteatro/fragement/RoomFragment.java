@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class RoomFragment extends Fragment {
     private EditText room_name;
 
     private ListView listView;
+    private ProgressBar progressBar;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> list_of_rooms = new ArrayList<>();
     private String name;
@@ -53,6 +55,7 @@ public class RoomFragment extends Fragment {
         add_room = (Button) view.findViewById(R.id.btn_add_room);
         room_name = (EditText) view.findViewById(R.id.room_name_edittext);
         listView = (ListView) view.findViewById(R.id.listView);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar_frag_eventos);
 
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list_of_rooms);
 
@@ -87,6 +90,7 @@ public class RoomFragment extends Fragment {
                 map.put(room_name.getText().toString(), "");
                 root.updateChildren(map);
 
+                room_name.setText("");
             }
         });
 
@@ -105,6 +109,7 @@ public class RoomFragment extends Fragment {
                 list_of_rooms.addAll(set);
 
                 arrayAdapter.notifyDataSetChanged();
+                RoomFragment.this.progressBar.setVisibility(View.GONE);
             }
 
             @Override

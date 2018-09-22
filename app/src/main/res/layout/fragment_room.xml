@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     tools:context="br.com.appteatro.appteatro.fragement.RoomFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar_frag_eventos"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="217dp"
+        android:layout_height="123dp"
+        android:visibility="visible"
+        android:layout_gravity = "center|top"/>
+    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
